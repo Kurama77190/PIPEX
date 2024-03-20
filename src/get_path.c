@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/20 18:48:15 by sben-tay         ###   ########.fr       */
+/*   Created: 2024/03/20 15:04:01 by sben-tay          #+#    #+#             */
+/*   Updated: 2024/03/20 18:51:14 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int main(int argc, char **argv, char **envp)
+char **get_path(char **envp)
 {
-	(void)argc;
-	(void)argv;
-	int i = 0;
+	int		i;
+	char	*env;
 	char	**path;
-	path = get_path(envp);
-	printf("voici mon path_spliter :\n");
-	while (path[i])
+
+	i = 0;
+	while(envp[i])
 	{
-		printf("%s\n", path[i]);
+		if (ft_strncmp(envp[i], "PATH", 4) == 0)
+		{
+			env = envp[i] + 5;
+			break ;
+		}
 		i++;
 	}
-	printf("\n");
-	return 0;
+	path = ft_split(env, ':');
+	if (!path)
+	{
+		free(path);	
+		return NULL;
+	}
+	return (path);
 }
