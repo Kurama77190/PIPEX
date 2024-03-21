@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:45:14 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/20 17:45:22 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:59:38 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	ft_lenmot(char *str, char c)
 	i = 0;
 	while (str[i] && str[i] != c)
 		i++;
-	return (i);
+	return (i + 1);
 }
 
 static char	**ft_malloc_error(char **tab)
@@ -68,15 +68,15 @@ void	ft_ajoutdesmots(char **tab, char *str, int i, char c)
 			i++;
 		if (str[i])
 		{
-			tab[j] = malloc((sizeof(char)) * (ft_lenmot(str + i, c) + 1));
+			tab[j] = malloc((sizeof(char)) * (ft_lenmot(str + i, c) + 2));
 			if (!tab[j])
 				ft_malloc_error(tab);
 			while (str[i] && str[i] != c)
 			{
-				tab[j][k] = str[i];
+				tab[j][k++] = str[i];
 				i++;
-				k++;
 			}
+			tab[j][k++] = '/';
 			tab[j][k] = '\0';
 			j++;
 		}
