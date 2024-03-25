@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:04:01 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/23 15:41:11 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/25 18:00:36 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char **get_path(char **envp)
 	int		i;
 	char	*env;
 	char	**path;
-
+	if (!envp)
+		return NULL;
 	i = 0;
 	while(envp[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/23 16:04:59 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/25 17:51:53 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,19 @@
 
 int main (int argc, char **argv, char **envp)
 {
-	(void)argc;
-	int infile;
-	infile = open(argv[1], O_RDONLY);
-	ft_pipex(infile, argv, envp);
+	if (argc != 5)
+	{
+		ft_error_msg("Error: expected 4 arguments\n");
+		exit(EXIT_FAILURE);
+	}
+	if (!envp)
+	{
+		ft_error_msg("Error: environement not found\n");
+		exit(EXIT_FAILURE);
+	}
+	// printf("PATH CMD1 : %s", get_cmd(get_path(envp), argv, 2));
+	// return (9);
+	ft_pipex(argv, envp);
 	return 0;
 }
 
