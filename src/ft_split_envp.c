@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_envp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 15:40:25 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/23 15:42:30 by sben-tay         ###   ########.fr       */
+/*   Created: 2024/03/20 17:45:14 by sben-tay          #+#    #+#             */
+/*   Updated: 2024/03/23 15:39:57 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	ft_lenmot(char *str, char c)
 	i = 0;
 	while (str[i] && str[i] != c)
 		i++;
-	return (i);
+	return (i + 1);
 }
 
 static char	**ft_malloc_error(char **tab)
@@ -55,7 +55,7 @@ static char	**ft_malloc_error(char **tab)
 	return (NULL);
 }
 
-static void	ft_ajoutdesmots(char **tab, char *str, int i, char c)
+void	ft_ajoutdesmots(char **tab, char *str, int i, char c)
 {
 	int	j;
 	int	k;
@@ -68,15 +68,15 @@ static void	ft_ajoutdesmots(char **tab, char *str, int i, char c)
 			i++;
 		if (str[i])
 		{
-			tab[j] = malloc((sizeof(char)) * (ft_lenmot(str + i, c) + 1));
+			tab[j] = malloc((sizeof(char)) * (ft_lenmot(str + i, c) + 2));
 			if (!tab[j])
 				ft_malloc_error(tab);
 			while (str[i] && str[i] != c)
 			{
-				tab[j][k] = str[i];
+				tab[j][k++] = str[i];
 				i++;
-				k++;
 			}
+			tab[j][k++] = '/';
 			tab[j][k] = '\0';
 			j++;
 		}
@@ -84,7 +84,7 @@ static void	ft_ajoutdesmots(char **tab, char *str, int i, char c)
 	tab[j] = (NULL);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_envp(char const *s, char c)
 {
 	char	*str;
 	char	**tab;
