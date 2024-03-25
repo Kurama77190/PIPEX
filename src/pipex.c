@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 14:52:24 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/25 18:04:06 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/25 21:57:55 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ int ft_pipex(char **argv, char **envp)
 	else if (child_pid == 0)
 	{
 		close(fd[0]);
-		close(STDOUT_FILENO);
-		dup(fd[1]);
-		close(fd[1]);
+		dup2(fd_in, STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
 		if (execve(get_cmd(get_path(envp), argv, 2), ft_split(argv[2], ' '), envp) == ERROR)
 		{
 			perror("execve");
@@ -48,16 +47,16 @@ int ft_pipex(char **argv, char **envp)
 	}
 	else
 	{
-		close(fd[1]);
-		close(STDIN_FILENO);
-		dup(fd[0]);
-		close(fd[0]);
 		int fd_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
         if (fd_out == ERROR)
         {
             perror("open");
             exit(EXIT_FAILURE);
         }
+		close(fd[1]);
+		close(STDIN_FILENO);
+		dup2(fd[0], STDIN_FILENO);
+		dup2(fd_out, STDOUT_FILENO);
 		dup2(fd[0], STDOUT_FILENO);
 		if (execve(get_cmd(get_path(envp), argv, 3), ft_split(argv[3], ' '), envp) == ERROR)
 		{
