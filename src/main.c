@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/25 22:02:35 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:08:39 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int main (int argc, char **argv, char **envp)
 		ft_error_msg("Error: environement not found\n");
 		exit(EXIT_FAILURE);
 	}
-	// printf("PATH CMD1 : %s", get_cmd(get_path(envp), argv, 2));
+	// printf("PATH CMD1 : %s", get_cmd(argv, envp, 2));
 	// return (9);
-	ft_pipex(argv, envp);
+	ft_pipex(argc, argv, envp);
 	return 0;
 }
 

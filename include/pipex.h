@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/25 17:28:39 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:06:23 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@
 
 char	**get_path(char **envp);
 
-char	*get_cmd(char **path, char **cmd, int i);
+char *get_cmd(char **argv, char **envp, int i);
 
-int		ft_pipex(char **argv, char **envp);
+int		ft_pipex(int argc, char **argv, char **envp);
 
 int		ft_error_msg(char *msg_error);
 

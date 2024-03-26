@@ -1,8 +1,9 @@
 img
 include
 Makefile
-outfile.txt
 pipex
 README.md
 src
 subject
+test1.txt
+test.txt
