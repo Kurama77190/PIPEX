@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 14:47:45 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/25 14:50:26 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/27 01:33:25 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	ft_putstr_fd(char *s, int fd);
 
-int		ft_error_msg(char *msg_error)
+void	ft_error_msg(char *msg_error)
 {
 	perror("");
 	ft_putstr_fd(msg_error, 2);
-	return (ERROR);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_putstr_fd(char *s, int fd)

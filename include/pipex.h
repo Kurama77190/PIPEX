@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/26 17:06:23 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/27 01:12:16 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,20 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 #define ERROR -1
 #define SUCCESS 0
-
 
 /*============================__FT_PIPEX__================================*/
 
 char	**get_path(char **envp);
 
-char *get_cmd(char **argv, char **envp, int i);
+char    *get_cmd(char **argv, char **envp, int i);
 
 int		ft_pipex(int argc, char **argv, char **envp);
 
-int		ft_error_msg(char *msg_error);
+void	ft_error_msg(char *msg_error);
 
 
 /*============================__LIB_FT__============================*/

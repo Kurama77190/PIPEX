@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/26 16:16:56 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/27 02:09:53 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char *get_cmd(char **argv, char **envp, int i)
 
 static void	msg_free_error(char **commands, char **path)
 {
-	perror("");
+	perror(commands[0]);
 	free_split(commands);
 	free_split(path);
 }

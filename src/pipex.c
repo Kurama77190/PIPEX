@@ -6,82 +6,120 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 14:52:24 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/26 18:22:05 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/27 02:08:44 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <limits.h>
 
-int ft_pipex(int argc, char **argv, char **envp)
+int		ft_exec_cmd(char **argv, char **envp, int i);
+int		ft_exec_first_cmd(char **argv, char **envp, int fd[], int i);
+int		ft_exec_last_cmd(int argc, char **av, char **envp, int fd[], int i);
+
+
+int		ft_pipex(int argc, char **argv, char **envp)
 {
-    (void)argc; // pour le bonus
-	int fd[2];
-    pid_t child_pid;
-    int status;
-	char *path;
-	int fd_in = open(argv[1], O_RDONLY);
-	if(fd_in == ERROR)
+	int		fd[2];
+	int		pipe;
+	int		status;
+	int		i;
+
+	i = 2;
+	pipe = 42;
+	printf("i = %d, argv = %s\n", i, argv[i]);
+	while (i++ < argc - 2 && pipe != ERROR)
 	{
-		perror("open");
-		exit(EXIT_FAILURE);
+		if (i == 2)
+		{
+			pipe = ft_exec_first_cmd(argv, envp, fd, i);
+		}
+		else
+		{
+			pipe = ft_exec_last_cmd(argc, argv, envp, fd, i);
+			
+		}
 	}
-	
-    if (pipe(fd) == ERROR)
-    {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }
-	if ((child_pid = fork()) == ERROR)
+	while (wait(&status) > 0)
+		;
+	return (0);
+}
+
+// a debugger
+int	ft_exec_cmd(char **argv, char **envp, int i)
+{
+	char	**cmd;
+	char	*path;
+
+	cmd = ft_split(argv[i], ' ');
+	if (!cmd)
+		return (free_split(cmd), ERROR);
+	path = get_cmd(argv, envp, i);
+	if (!path)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
+		free_split(cmd);
+		return (ft_error_msg(argv[i]), ERROR);
 	}
-	else if (child_pid == 0)
+	if (execve(path, cmd, envp) == ERROR)
+	{
+		free_split(cmd);
+		free(path);
+		ft_error_msg("execve");
+	}
+	free_split(cmd);
+	free(path);
+	return (0);
+}
+
+// a debbuger
+int	ft_exec_first_cmd(char **argv, char **envp, int fd[], int i)
+{
+	int		fd_in;
+	pid_t	pid;
+	if((fd_in = open(argv[i - 1], O_RDONLY)) == ERROR)		
+		return (ft_error_msg("open"), ERROR);
+	if (pipe(fd) == ERROR)
+		return (ft_error_msg("pipe"), ERROR);
+	if ((pid = fork()) == ERROR)
+		return (ft_error_msg("fork"), ERROR);
+	if (pid == 0)
 	{
 		close(fd[0]);
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		path = get_cmd(argv,envp, 2);
-		if (execve(path, ft_split(argv[2], ' '), envp) == ERROR)
-		{
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		free(path);
-		close(fd_in);
-		close(fd[1]);
+		ft_exec_cmd(argv, envp, i);
 	}
-	else
+	close(fd[1]);
+	close(fd_in);
+	return (SUCCESS);
+}
+
+// a debbuger
+int	ft_exec_last_cmd(int argc, char **argv, char **envp, int fd[], int i)
+{
+	pid_t	pid;
+	int		fd_out;
+
+	if ((pid = fork()) == ERROR)
+		return (ft_error_msg("fork"), ERROR);
+	if (pid == 0)
 	{
-		path = get_cmd(argv, envp, 3);
-		printf("%s\n", path);
-		int fd_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-        if (fd_out == ERROR)
-        {
-            perror("open");
-            exit(EXIT_FAILURE);
-        }
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		dup2(fd_out, STDOUT_FILENO);
+		fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd_out == ERROR)
+		{
+			return (ft_error_msg("open"), ERROR);
+			exit(EXIT_FAILURE);
+		}
+		dup2(fd_out, STDIN_FILENO);
 		close(fd_out);
-		
-		
-		if (execve(path, ft_split(argv[3], ' '), envp) == ERROR)
-		{
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		free(path);
-		wait(&status);
-		if (status == -1)
-		{
-			ft_error_msg("Error executing command: cmd1");
-			exit(EXIT_FAILURE);
-		}
+		dup2(fd[0], STDOUT_FILENO);
+		close(fd[0]);
+		ft_exec_cmd(argv, envp, i);
 	}
-    return (SUCCESS);
+	close(fd_out);
+	close(fd[0]);
+	return (SUCCESS);
 }
