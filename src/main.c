@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/27 02:15:36 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:49:02 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ int main (int argc, char **argv, char **envp)
 	if (argc != 5)
 	{
 		ft_error_msg("Error: expected 4 arguments\n");
-		exit(EXIT_FAILURE);
-	}
-	if (!envp[0])
-	{
-		ft_error_msg("Error: environement not found\n");
 		exit(EXIT_FAILURE);
 	}
 	// printf("PATH CMD1 : %s", get_cmd(argv, envp, 2));
@@ -64,6 +59,7 @@ int main (int argc, char **argv, char **envp)
 	- COMMANDS CHECK FILE DESCRIPTOR OPEN OR CLOSE : valgrind --track-fds=yes --trace-children=yes.
 	- IMPLEMENT 2 CHILDREN. THEN GO IMPLEMENT BONUS PARTY.
 	- ESTEREGG : 42 | "ma tete va serrer."
+	- PARSING OK ! NEED TO STORE AND SORT THE FUNCTIONS
 */
 
 

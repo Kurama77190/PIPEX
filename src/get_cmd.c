@@ -6,13 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/27 02:09:53 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:21:19 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 static void	msg_free_error(char **commands, char **path);
+static void	msg_free_success(char **commands, char **path);
 
 char *get_cmd(char **argv, char **envp, int i)
 {
@@ -30,11 +31,7 @@ char *get_cmd(char **argv, char **envp, int i)
 	{
 		cmd_path = ft_strjoin(path[index_tab], commands[0]);
 		if (access(cmd_path, F_OK) == SUCCESS && access(cmd_path, X_OK) == SUCCESS)
-		{
-				free_split(commands);
-				free_split(path);	
-				return (cmd_path);
-		}
+				return (msg_free_success(commands, path), cmd_path);
 		index_tab++;
 		free(cmd_path);
 	}	
@@ -49,7 +46,11 @@ static void	msg_free_error(char **commands, char **path)
 	free_split(path);
 }
 
-
+static void	msg_free_success(char **commands, char **path)
+{
+	free_split(commands);
+	free_split(path);
+}
 
 
 
