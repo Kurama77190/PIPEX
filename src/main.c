@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/27 01:07:41 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/03/27 02:15:36 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int main (int argc, char **argv, char **envp)
 	- FOUND PATH OF ALL FUNCTION OK ! With get_cmd
 	- COMMANDS CHECK FILE DESCRIPTOR OPEN OR CLOSE : valgrind --track-fds=yes --trace-children=yes.
 	- IMPLEMENT 2 CHILDREN. THEN GO IMPLEMENT BONUS PARTY.
-
+	- ESTEREGG : 42 | "ma tete va serrer."
 */
 
 
