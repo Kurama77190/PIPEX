@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/27 17:23:30 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:46:51 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		ft_pipex(int argc, char **argv, char **envp);
 
 void	ft_error_msg(char *msg_error);
 
+void	ft_error_msg_pross(char *msg_error);
 
 /*============================__LIB_FT__============================*/
 
@@ -53,5 +54,7 @@ size_t	ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 
 void	free_split(char **strs);
+
+void	ft_putstr_fd(char *s, int fd);
 
 #endif

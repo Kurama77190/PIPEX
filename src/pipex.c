@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 14:52:24 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/27 18:45:09 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:07:33 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int		ft_exec_cmd(char **argv, char **envp, int i);
 int		ft_exec_first_cmd(char **argv, char **envp, int fd[], int i);
 int		ft_exec_last_cmd(int argc, char **av, char **envp, int fd[], int i);
 bool	ft_path_exist(char *argv);
-int		ft_exec_exist_cmd(char **argv, char **envp, int i);
-int		ft_exec_not_exist_cmd(char **argv, char **envp, int i);
+int		ft_real_path(char **argv, char **envp, int i);
+int		ft_not_real_path(char **argv, char **envp, int i);
 
 
 int		ft_pipex(int argc, char **argv, char **envp)
@@ -42,28 +42,6 @@ int		ft_pipex(int argc, char **argv, char **envp)
 	return (0);
 }
 
-
-int	ft_exec_cmd(char **argv, char **envp, int i)
-{
-	if (!ft_path_exist(argv[i]))
-	{
-		if (!envp[0])
-		{
-			ft_error_msg("Error: environement not found\n");
-			exit(EXIT_FAILURE);
-		}
-		if(ft_exec_not_exist_cmd(argv, envp, i) == SUCCESS)
-			return(SUCCESS);
-		else
-			return(ERROR);
-	}
-	if (ft_path_exist(argv[i]))
-	{
-		if(ft_exec_exist_cmd(argv, envp, i) != SUCCESS)
-			return (ERROR);
-	}
-	return(SUCCESS);
-}
 
 int	ft_exec_first_cmd(char **argv, char **envp, int fd[], int i)
 {
@@ -119,11 +97,38 @@ bool	ft_path_exist(char *argv)
 	return (access(argv, F_OK) == SUCCESS && access(argv, X_OK) == SUCCESS);
 }
 
-int	ft_exec_exist_cmd(char **argv, char **envp, int i)
+int	ft_exec_cmd(char **argv, char **envp, int i)
+{
+	if (!ft_path_exist(argv[i]))
+	{
+		if (!envp[0])
+		{
+			ft_error_msg("Error: environement not found\n");
+			exit(EXIT_FAILURE);
+		}
+		if(ft_not_real_path(argv, envp, i) == SUCCESS)
+			return(SUCCESS);
+		else
+			return(ERROR);
+	}
+	else
+	{
+		dprintf(2, "zebi\n");
+		if(ft_real_path(argv, envp, i) == SUCCESS)
+			return (SUCCESS);
+		else
+			return (ERROR);
+		
+	}
+	return(SUCCESS);
+}
+
+int	ft_real_path(char **argv, char **envp, int i)
 {
 	char *path;
 	char **cmd;
 
+	// dprintf(2, "je suis rentrer dans real path\n");
 	cmd = ft_split(argv[i], ' ');
 	if (!cmd)
 		return (ft_error_msg("Error split"), ERROR);
@@ -131,7 +136,8 @@ int	ft_exec_exist_cmd(char **argv, char **envp, int i)
 	if (!path)
 	{
 		free_split(cmd);
-		return (ft_error_msg(argv[i]), ERROR);
+		exit (1);
+		return (ERROR);
 	}
 	if (execve(path, cmd, envp) == ERROR)
 	{
@@ -143,11 +149,12 @@ int	ft_exec_exist_cmd(char **argv, char **envp, int i)
 	return (SUCCESS);
 }
 
-int ft_exec_not_exist_cmd(char **argv, char **envp, int i)
+int ft_not_real_path(char **argv, char **envp, int i)
 {
 	char **cmd;
 	char *path;
 	
+	// dprintf(2, "je suis rentrer dans not real path\n");
 	cmd = ft_split(argv[i], ' ');
 	if (!cmd)
 		return (ft_error_msg("Error split"), ERROR);
@@ -155,10 +162,12 @@ int ft_exec_not_exist_cmd(char **argv, char **envp, int i)
 	if (!path)
 	{
 		free_split(cmd);
-		return (ft_error_msg(argv[i]), ERROR);
+		exit(1);
+		return (ERROR);
 	}
 	if (execve(path, cmd, envp) == ERROR)
 	{
+		dprintf(2, "iudfgsfghsekrjghserg\n");
 		free_split(cmd);
 		free(path);
 		ft_error_msg("execve");

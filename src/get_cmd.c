@@ -6,14 +6,15 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/27 17:21:19 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:41:14 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	msg_free_error(char **commands, char **path);
+// static void	msg_free_error(char **commands, char **path);
 static void	msg_free_success(char **commands, char **path);
+static void msg_free_error_perso(char **commands, char **path);
 
 char *get_cmd(char **argv, char **envp, int i)
 {
@@ -22,29 +23,30 @@ char *get_cmd(char **argv, char **envp, int i)
 	char	**commands;
 	int		index_tab;
 	
+	printf("je rentre ici");
 	index_tab = 0;
 	if ((commands = ft_split(argv[i], ' ')) == NULL)
 		return (free_split(commands), NULL);
 	if ((path = get_path(envp)) == NULL)
-		return (NULL);
-	while(path[index_tab])
+		return (free_split(commands), NULL);
+	while(path[index_tab]) // a faire attention a l'incrementation
 	{
 		cmd_path = ft_strjoin(path[index_tab], commands[0]);
 		if (access(cmd_path, F_OK) == SUCCESS && access(cmd_path, X_OK) == SUCCESS)
 				return (msg_free_success(commands, path), cmd_path);
 		index_tab++;
 		free(cmd_path);
-	}	
-	msg_free_error(commands, path);
+	}
+	msg_free_error_perso(commands, path);
 	return NULL;
 }
 
-static void	msg_free_error(char **commands, char **path)
-{
-	perror(commands[0]);
-	free_split(commands);
-	free_split(path);
-}
+// static void	msg_free_error(char **commands, char **path)
+// {
+// 	perror(commands[0]);
+// 	free_split(commands);
+// 	free_split(path);
+// }
 
 static void	msg_free_success(char **commands, char **path)
 {
@@ -52,7 +54,13 @@ static void	msg_free_success(char **commands, char **path)
 	free_split(path);
 }
 
-
+static void msg_free_error_perso(char **commands, char **path)
+{
+	ft_putstr_fd(commands[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
+	free_split(commands);
+	free_split(path);
+}
 
 
 

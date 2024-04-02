@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/27 18:49:02 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/02 19:17:50 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ int main (int argc, char **argv, char **envp)
 	- IMPLEMENT 2 CHILDREN. THEN GO IMPLEMENT BONUS PARTY.
 	- ESTEREGG : 42 | "ma tete va serrer."
 	- PARSING OK ! NEED TO STORE AND SORT THE FUNCTIONS
+	02/04/24
+	- REDIRECTION : OK
+	- ERREUR ARGUMENTS OK
+	- MEMORY LEAKS CHILD AND FD OK
+	- GOOD MESSAGE ERROR ... IN WORKING
 */
 
 
@@ -68,5 +73,7 @@ int main (int argc, char **argv, char **envp)
 /* *************************** */
 
 /*
-	-
+	- Comparer le comportement de mon pipex avec le comportement de : bash --posix 
+	- Comparer le comportement de mon pipex sans l'environement et de PATH :env -i | unset PATH
+	- le meilleur teste de comportement : ./pipex /dev/stdin ls cat /dev/stdout
 */
