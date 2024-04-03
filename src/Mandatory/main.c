@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/02 19:17:50 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:06:41 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main (int argc, char **argv, char **envp)
 {
 	if (argc != 5)
 	{
-		ft_error_msg("Error: expected 4 arguments\n");
+		ft_putstr_fd("Error: expected 4 arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	// printf("PATH CMD1 : %s", get_cmd(argv, envp, 2));

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 14:52:24 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/02 18:07:33 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:44:52 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_exec_first_cmd(char **argv, char **envp, int fd[], int i)
 	pid_t	pid;
 
 	if((fd_in = open(argv[i - 1], O_RDONLY)) == ERROR)		
-		return (ft_error_msg("open"), ERROR);
+		return (ft_error_msg(argv[i - 1]), ERROR);
 	if (pipe(fd) == ERROR)
 		return (ft_error_msg("pipe"), ERROR);
 	if ((pid = fork()) == ERROR)
@@ -68,7 +68,6 @@ int	ft_exec_first_cmd(char **argv, char **envp, int fd[], int i)
 	return (SUCCESS);
 }
 
-// a debbuger
 int	ft_exec_last_cmd(int argc, char **argv, char **envp, int fd[], int i)
 {
 	pid_t	pid;
@@ -92,11 +91,6 @@ int	ft_exec_last_cmd(int argc, char **argv, char **envp, int fd[], int i)
 	return (SUCCESS);
 }
 
-bool	ft_path_exist(char *argv)
-{
-	return (access(argv, F_OK) == SUCCESS && access(argv, X_OK) == SUCCESS);
-}
-
 int	ft_exec_cmd(char **argv, char **envp, int i)
 {
 	if (!ft_path_exist(argv[i]))
@@ -113,7 +107,6 @@ int	ft_exec_cmd(char **argv, char **envp, int i)
 	}
 	else
 	{
-		dprintf(2, "zebi\n");
 		if(ft_real_path(argv, envp, i) == SUCCESS)
 			return (SUCCESS);
 		else
@@ -128,7 +121,6 @@ int	ft_real_path(char **argv, char **envp, int i)
 	char *path;
 	char **cmd;
 
-	// dprintf(2, "je suis rentrer dans real path\n");
 	cmd = ft_split(argv[i], ' ');
 	if (!cmd)
 		return (ft_error_msg("Error split"), ERROR);
@@ -154,7 +146,6 @@ int ft_not_real_path(char **argv, char **envp, int i)
 	char **cmd;
 	char *path;
 	
-	// dprintf(2, "je suis rentrer dans not real path\n");
 	cmd = ft_split(argv[i], ' ');
 	if (!cmd)
 		return (ft_error_msg("Error split"), ERROR);
@@ -167,7 +158,6 @@ int ft_not_real_path(char **argv, char **envp, int i)
 	}
 	if (execve(path, cmd, envp) == ERROR)
 	{
-		dprintf(2, "iudfgsfghsekrjghserg\n");
 		free_split(cmd);
 		free(path);
 		ft_error_msg("execve");

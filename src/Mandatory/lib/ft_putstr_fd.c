@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path.c                                         :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 15:04:01 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/02 18:35:16 by sben-tay         ###   ########.fr       */
+/*   Created: 2024/04/03 17:45:47 by sben-tay          #+#    #+#             */
+/*   Updated: 2024/04/03 17:45:56 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char **get_path(char **envp)
+void	ft_putstr_fd(char *s, int fd)
 {
-	int		i;
-	char	*env;
-	char	**path;
+	size_t	i;
 
-	if (!envp[0])
-		return NULL;
 	i = 0;
-	while(envp[i])
+	if (!s)
+		return ;
+	while (s[i])
 	{
-		if (ft_strncmp(envp[i], "PATH", 4) == SUCCESS)
-		{
-			env = envp[i] + 5;
-			break ;
-		}
+		if (write(fd, &s[i], 1) == -1)
+			return ;
 		i++;
 	}
-	path = ft_split_envp(env, ':');
-	if (!path)
-	{
-		free(path);	
-		return NULL;
-	}
-	return (path);
 }
-

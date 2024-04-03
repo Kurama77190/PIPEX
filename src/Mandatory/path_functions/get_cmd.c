@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/02 18:41:14 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:43:35 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char *get_cmd(char **argv, char **envp, int i)
 	char	**commands;
 	int		index_tab;
 	
-	printf("je rentre ici");
 	index_tab = 0;
 	if ((commands = ft_split(argv[i], ' ')) == NULL)
 		return (free_split(commands), NULL);
+	// path = get_path(envp); 
 	if ((path = get_path(envp)) == NULL)
 		return (free_split(commands), NULL);
-	while(path[index_tab]) // a faire attention a l'incrementation
+	while(path[index_tab])
 	{
 		cmd_path = ft_strjoin(path[index_tab], commands[0]);
 		if (access(cmd_path, F_OK) == SUCCESS && access(cmd_path, X_OK) == SUCCESS)
@@ -37,6 +37,9 @@ char *get_cmd(char **argv, char **envp, int i)
 		index_tab++;
 		free(cmd_path);
 	}
+	// if (!envp[0])
+	// 	msg_free_error(commands, path);
+	// else
 	msg_free_error_perso(commands, path);
 	return NULL;
 }
