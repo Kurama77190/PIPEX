@@ -6,11 +6,37 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:45:14 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/03 17:05:52 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:17:37 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static int	ft_nombremot(char *str, char c);
+static int	ft_lenmot(char *str, char c);
+static char	**ft_malloc_error(char **tab);
+static bool	ft_ajoutdesmots(char **tab, char *str, int i, char c);
+
+char	**ft_split_envp(char const *s, char c)
+{
+	char	*str;
+	char	**tab;
+	int		i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	str = (char *)s;
+	tab = malloc(sizeof(char *) * (ft_nombremot(str, c) + 1));
+	if (!tab)
+		return (NULL);
+	if (!ft_ajoutdesmots(tab, str, i, c))
+	{
+		ft_malloc_error(tab);
+		return (NULL);
+	}
+	return (tab);
+}
 
 static int	ft_nombremot(char *str, char c)
 {
@@ -55,7 +81,7 @@ static char	**ft_malloc_error(char **tab)
 	return (NULL);
 }
 
-void	ft_ajoutdesmots(char **tab, char *str, int i, char c)
+static bool	ft_ajoutdesmots(char **tab, char *str, int i, char c)
 {
 	int	j;
 	int	k;
@@ -70,33 +96,16 @@ void	ft_ajoutdesmots(char **tab, char *str, int i, char c)
 		{
 			tab[j] = malloc((sizeof(char)) * (ft_lenmot(str + i, c) + 2));
 			if (!tab[j])
-				ft_malloc_error(tab);
+				return (false);
 			while (str[i] && str[i] != c)
 			{
-				tab[j][k++] = str[i];
-				i++;
+				tab[j][k++] = str[i++];
 			}
 			tab[j][k++] = '/';
 			tab[j][k] = '\0';
 			j++;
 		}
 	}
-	tab[j] = (NULL);
-}
-
-char	**ft_split_envp(char const *s, char c)
-{
-	char	*str;
-	char	**tab;
-	int		i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	str = (char *)s;
-	tab = malloc(sizeof(char *) * (ft_nombremot(str, c) + 1));
-	if (!tab)
-		return (NULL);
-	ft_ajoutdesmots(tab, str, i, c);
-	return (tab);
+	tab[j] = NULL;
+	return (true);
 }

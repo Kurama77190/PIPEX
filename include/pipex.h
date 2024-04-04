@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/02 17:46:51 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:13:35 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,23 @@ int		ft_pipex(int argc, char **argv, char **envp);
 void	ft_error_msg(char *msg_error);
 
 void	ft_error_msg_pross(char *msg_error);
+
+int	ft_exec_first_cmd(char **argv, char **envp, int fd[], int i);
+
+int	ft_exec_last_cmd(int argc, char **argv, char **envp, int fd[], int i);
+
+int	ft_exec_cmd(char **argv, char **envp, int i);
+
+int ft_not_real_path(char **argv, char **envp, int i);
+
+int	ft_real_path(char **argv, char **envp, int i);
+
+bool	ft_path_exist(char *argv);
+
+void	ft_error_msg(char *msg_error);
+
+void	ft_error_msg_pross(char *msg_error);;
+
 
 /*============================__LIB_FT__============================*/
 

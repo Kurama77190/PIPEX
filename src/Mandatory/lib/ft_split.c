@@ -6,18 +6,19 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:40:25 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/03 17:43:20 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:03:06 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	ft_nombremot(char *str);
-static int	ft_lenmot(char *str);
-static char	**ft_malloc_error(char **tab);
-bool		ft_ajoutdesmots(char **tab, char *str, int i);
 
-char	**ft_split(char const *s)
+static int	ft_nombremot(char *str, char c);
+static int	ft_lenmot(char *str, char c);
+static char	**ft_malloc_error(char **tab);
+static bool	ft_ajoutdesmots(char **tab, char *str, int i, char c);
+
+char	**ft_split(char const *s, char c)
 {
 	char	*str;
 	char	**tab;
@@ -27,10 +28,10 @@ char	**ft_split(char const *s)
 	if (!s)
 		return (NULL);
 	str = (char *)s;
-	tab = malloc(sizeof(char *) * (ft_nombremot(str) + 1));
+	tab = malloc(sizeof(char *) * (ft_nombremot(str, c) + 1));
 	if (!tab)
 		return (NULL);
-	if (!ft_ajoutdesmots(tab, str, i))
+	if (!ft_ajoutdesmots(tab, str, i, c))
 	{
 		ft_malloc_error(tab);
 		return (NULL);
@@ -38,7 +39,7 @@ char	**ft_split(char const *s)
 	return (tab);
 }
 
-static int	ft_nombremot(char *str)
+static int	ft_nombremot(char *str, char c)
 {
 	int	i;
 	int	count;
@@ -47,24 +48,24 @@ static int	ft_nombremot(char *str)
 	count = 0;
 	while (str[i])
 	{
-		while (ft_is_space(str[i]) && str[i])
+		while (str[i] == c && str[i])
 			i++;
 		if (str[i])
 			count++;
-		while (!ft_is_space(str[i]) && str[i])
+		while (str[i] != c && str[i])
 			i++;
 	}
 	return (count);
 }
 
-static int	ft_lenmot(char *str)
+static int	ft_lenmot(char *str, char c)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && !ft_is_space(str[i]))
+	while (str[i] && str[i] != c)
 		i++;
-	return (i);
+	return (i + 1);
 }
 
 static char	**ft_malloc_error(char **tab)
@@ -81,7 +82,7 @@ static char	**ft_malloc_error(char **tab)
 	return (NULL);
 }
 
-bool	ft_ajoutdesmots(char **tab, char *str, int i)
+static bool	ft_ajoutdesmots(char **tab, char *str, int i, char c)
 {
 	int	j;
 	int	k;
@@ -90,20 +91,19 @@ bool	ft_ajoutdesmots(char **tab, char *str, int i)
 	while (str[i])
 	{
 		k = 0;
-		while (ft_is_space(str[i]))
+		while (str[i] == c)
 			i++;
 		if (str[i])
 		{
-			tab[j] = malloc((sizeof(char)) * (ft_lenmot(str + i) + 1));
+			tab[j] = malloc((sizeof(char)) * (ft_lenmot(str + i, c) + 2));
 			if (!tab[j])
 				return (false);
-			while (str[i] && !ft_is_space(str[i]))
+			while (str[i] && str[i] != c)
 			{
-				tab[j][k] = str[i];
-				i++;
-				k++;
+				tab[j][k++] = str[i++];
 			}
-			tab[j++][k] = '\0';
+			tab[j][k] = '\0';
+			j++;
 		}
 	}
 	tab[j] = NULL;
