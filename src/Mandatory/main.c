@@ -6,49 +6,32 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/04 18:54:44 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:48:35 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/pipex.h"
+#include "pipex.h"
 
+/* ********************* */
+/* ⚙️ MAIN PROGRAMME ⚙️ */
+/* ********************* */
 
-/* *************************** */
-/* 			MAIN PROGRAMME	   */
-/* *************************** */
-
-int main (int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
+	t_pipex	data;
+
 	if (argc != 5)
-	{
-		ft_putstr_fd("Error: expected 4 arguments\n", 2);
-		exit(EXIT_FAILURE);
-	}
-	ft_pipex(argc, argv, envp);
-	return 0;
+		return (ft_error_arguments(), 1);
+	data.argc = argc;
+	data.argv = argv;
+	data.envp = envp;
+	ft_pipex(data);
+	return (0);
 }
 
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	// if (!envp || argc != 5)
-// 	// {
-// 	// 	stderr("Error: Invalid arguments\n");
-// 	// 	return (ERROR);
-// 	// }
-// 	(void)argc;
-// 	(void)argv;
-// 	char	*path;
-// 	path = get_cmd(get_path(envp), argv, 1);
-// 	printf("\n");
-// 	printf("test function 'get_cmd' : %s", path);
-// 	free(path);
-// 	return 0;
-// }
-
-/* *************************** */
-/* 		  NOTE PROJECT	       */
-/* *************************** */
+/* **************** */
+/*   NOTE PROJECT   */
+/* **************** */
 
 /*
 	- PARSING ...
@@ -73,4 +56,23 @@ int main (int argc, char **argv, char **envp)
 	- Comparer le comportement de mon pipex avec le comportement de : bash --posix 
 	- Comparer le comportement de mon pipex sans l'environement et de PATH :env -i | unset PATH
 	- le meilleur teste de comportement : ./pipex /dev/stdin ls cat /dev/stdout
+	- < /dev/stdin cat | cat > ./pipex = Comportement inatendu.
+*/
+
+/* *************************** */
+/* 		NOTE MINISHELL 		   */
+/* *************************** */
+
+/*
+	- EXPORT SANS ARGUMENTS EST UN COMPORTEMENT INDEFENIE (voir la dock exort)
+*/
+
+/* *************************** */
+/* 		NOTE EARDOCK		   */
+/* *************************** */
+
+/*
+	- EARDOCK CEST UN INFILE OUVERT DANS LE TERMINAL
+	- LE EARDOCK DE PIPEX N EST PAS BON POUR MINISHELL !
+	
 */

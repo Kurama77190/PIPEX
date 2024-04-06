@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path.c                                         :+:      :+:    :+:   */
+/*   main_pipex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 15:04:01 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/03 17:43:45 by sben-tay         ###   ########.fr       */
+/*   Created: 2024/03/23 14:52:24 by sben-tay          #+#    #+#             */
+/*   Updated: 2024/04/06 16:47:28 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char **get_path(char **envp)
-{
-	int		i;
-	char	*env;
-	char	**path;
+/* ********************* */
+/* 🥇 MAIN PROGRAMME 🥇 */
+/* ********************* */
 
-	if (!envp[0])
-		return NULL;
-	i = 0;
-	while(envp[i])
+int	ft_pipex(t_pipex data)
+{
+	int		pipe;
+	int		i;
+
+	i = 1;
+	pipe = 77190;
+	while (i++ < data.argc - 2 && pipe != ERROR)
 	{
-		if (ft_strncmp(envp[i], "PATH", 4) == SUCCESS)
-		{
-			env = envp[i] + 5;
-			break ;
-		}
-		i++;
+		if (i == 2)
+			pipe = ft_setup_first_children(&data, i);
+		else
+			pipe = ft_setup_last_children(&data, i);
 	}
-	path = ft_split_envp(env, ':');
-	if (!path)
-	{
-		free(path);	
-		return NULL;
-	}
-	return (path);
+	while (wait(data.status) > 0)
+		;
+	return (0);
 }
+
+// else if (i > 2 && i < argc - 2)
+// 	ft_exec_multi_cmd(argv, emvp, fd, i);
