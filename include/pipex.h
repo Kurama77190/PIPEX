@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/06 17:55:53 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:58:38 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_pipex
 	int		fd[2];
 	int		fd_in;
 	int		fd_out;
-	int		*status;
 	int		argc;
 	char	**argv;
 	char	**envp;
@@ -48,8 +47,6 @@ char		*get_cmd(char **argv, char **envp, int i);
 
 int			ft_pipex(t_pipex data);
 
-// void		ft_error_msg(char *msg_error);
-
 int			ft_setup_first_children(t_pipex *data, int i);
 
 int			ft_setup_last_children(t_pipex *data, int i);
@@ -58,7 +55,7 @@ int			ft_exec_cmd(char **argv, char **envp, int i);
 
 int			ft_search_path_cmd(char **argv, char **envp, int i);
 
-int			ft_exec_real_path_cmd(char **argv, char **envp, int i);
+int			ft_exec_absolut_path_cmd(char **argv, char **envp, int i);
 
 bool		ft_absolut_path_cmd(char *argv);
 
@@ -80,7 +77,7 @@ void		ft_putstr_fd(char *s, int fd);
 
 /*===========================__MSG_ERROR_===========================*/
 
-char		*ft_error_cmd(char **commands, char **path, char **envp);
+char		*ft_error_cmd(char **commands, char **path);
 
 int			ft_error_msg(char *msg_error);
 

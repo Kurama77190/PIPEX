@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/06 17:55:31 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:59:07 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ char	**get_path(char **envp)
 	char	*env;
 	char	**path;
 
-	// if (!envp[0])
-	// 	return (NULL);
 	i = 0;
 	while (envp[i])
 	{
@@ -36,12 +34,12 @@ char	**get_path(char **envp)
 		}
 		i++;
 	}
-	path = ft_split_envp(env, ':');
+	if (envp[i] == NULL)
+		return (NULL);	
+	else
+		path = ft_split_envp(env, ':');
 	if (!path)
-	{
-		free(path);
 		return (NULL);
-	}
 	return (path);
 }
 
@@ -55,9 +53,9 @@ char	*get_cmd(char **argv, char **envp, int i)
 	index_tab = 0;
 	commands = ft_split(argv[i], ' ');
 	if (commands == NULL)
-		return (free_split(commands), NULL);
+		return (NULL);
 	path = get_path(envp);
-	if (path == NULL)
+	if (!path)
 		return (free_split(commands), NULL);
 	while (path[index_tab])
 	{
@@ -67,7 +65,7 @@ char	*get_cmd(char **argv, char **envp, int i)
 		index_tab++;
 		free(cmd_path);
 	}
-	ft_error_cmd(commands, path, envp);
+	ft_error_cmd(commands, path);
 	return (NULL);
 }
 

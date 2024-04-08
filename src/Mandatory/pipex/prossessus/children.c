@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/06 17:13:20 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:21:20 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	ft_setup_first_children(t_pipex *data, int i)
 		close(data->fd_in);
 		dup2(data->fd[1], STDOUT_FILENO);
 		close(data->fd[1]);
-		ft_exec_cmd(data->argv, data->envp, i);
+		if (ft_exec_cmd(data->argv, data->envp, i) == ERROR)
+			exit(127);
 	}
 	close(data->fd[1]);
 	close(data->fd_in);
@@ -60,7 +61,8 @@ int	ft_setup_last_children(t_pipex *data, int i)
 		close(data->fd_out);
 		dup2(data->fd[0], STDIN_FILENO);
 		close(data->fd[0]);
-		ft_exec_cmd(data->argv, data->envp, i);
+		if (ft_exec_cmd(data->argv, data->envp, i) == ERROR)
+			exit(127);
 	}
 	close(data->fd[0]);
 	close(data->fd_out);

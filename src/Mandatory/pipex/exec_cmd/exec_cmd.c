@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/06 17:15:21 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:07:11 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,38 +20,35 @@ int	ft_exec_cmd(char **argv, char **envp, int i)
 {
 	if (!ft_absolut_path_cmd(argv[i]))
 	{
-		// if (!envp[0])
-		// {
-		// 	ft_error_msg("Error: environement not found\n");
-		// 	exit(EXIT_FAILURE);
-		// }
-		if (ft_search_path_cmd(argv, envp, i) == SUCCESS)
-			return (SUCCESS);
+		if (!envp[0])
+			return (ft_error_msg(argv[i]));
 		else
-			return (ERROR);
+		{
+			if (ft_search_path_cmd(argv, envp, i) == SUCCESS)
+				return (SUCCESS);
+		}
 	}
-	else
+	if (ft_absolut_path_cmd(argv[i]))
 	{
-		if (ft_exec_real_path_cmd(argv, envp, i) == SUCCESS)
+		if (ft_exec_absolut_path_cmd(argv, envp, i) == SUCCESS)
 			return (SUCCESS);
-		else
-			return (ERROR);
+		
 	}
-	return (SUCCESS);
+	return (ERROR);
 }
 
 /* ********************************* */
 /*  🌟 EXECVE_WITH_ABSOLUT_PATH 🌟  */
 /* ********************************* */
 
-int	ft_exec_real_path_cmd(char **argv, char **envp, int i)
+int	ft_exec_absolut_path_cmd(char **argv, char **envp, int i)
 {
 	char	*path;
 	char	**cmd;
 
 	cmd = ft_split(argv[i], ' ');
 	if (!cmd)
-		return (ft_error_msg("Error split"), ERROR);
+		return (ERROR);
 	path = argv[i];
 	if (!path)
 	{
@@ -80,7 +77,6 @@ int	ft_search_path_cmd(char **argv, char **envp, int i)
 	if (!path)
 	{
 		free_split(cmd);
-		exit(1);
 		return (ERROR);
 	}
 	if (execve(path, cmd, envp) == ERROR)
