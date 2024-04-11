@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 14:52:24 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/08 18:39:42 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:56:05 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,22 @@ int	ft_pipex(t_pipex data)
 	int		i;
 	int		status;
 
-	i = 1;
+	i = 2;
 	pipe = 77190;
-	while (i++ < data.argc - 2 && pipe != ERROR)
+	while (i <= data.argc - 2 && pipe != ERROR)
 	{
 		if (i == 2)
 			pipe = ft_setup_first_children(&data, i);
-		else
+		if (i == data.argc - 2)
+		{
 			pipe = ft_setup_last_children(&data, i);
+			break ;
+		}
+		// else
+			// pipe = ft_setup_children(&data, i);
+		i++;
 	}
-	i = 2;
-	while (wait(&status) != -1)
+	while (wait(&status) > 0)
 		;
 	return (0);
 }

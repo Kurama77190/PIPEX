@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:45:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/08 14:58:29 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/09 17:30:41 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	ft_error_msg(char *msg_error)
 {
-	ft_putstr_fd("bash: ", 2);
-	perror(msg_error);
+	ft_printf("bash: %s: %s\n", msg_error, strerror(errno));
 	return (ERROR);
 }
 
@@ -27,9 +26,7 @@ void	ft_error_arguments(void)
 
 char	*ft_error_cmd(char **commands, char **path)
 {
-	ft_putstr_fd("bash: ", 2);
-	ft_putstr_fd(commands[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
+	dprintf(2, "bash: %s: command not found\n", commands[0]);
 	free_split(commands);
 	free_split(path);
 	return (NULL);

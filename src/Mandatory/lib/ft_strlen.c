@@ -6,18 +6,18 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 14:02:14 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/03/21 14:02:25 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:32:00 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-size_t	ft_strlen(char *str)
-{
-	int	i;
+// static size_t	ft_strlen(char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	while (str[i])
+// 		i++;
+// 	return (i);
+// }

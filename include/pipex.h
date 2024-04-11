@@ -6,13 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/08 14:58:38 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:27:24 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# include "../external/PRINTF/ft_printf.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -37,7 +38,6 @@ typedef struct s_pipex
 	char	**envp;
 	pid_t	pid;
 }			t_pipex;
-
 
 /*============================__FT_PIPEX__================================*/
 
@@ -67,7 +67,7 @@ char		**ft_split_envp(char const *s, char c);
 
 char		**ft_split(char const *s, char c);
 
-size_t		ft_strlen(char *str);
+// size_t		ft_strlen(char *str);
 
 char		*ft_strjoin(char *s1, char *s2);
 

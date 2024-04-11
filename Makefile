@@ -6,13 +6,14 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 16:01:20 by sben-tay          #+#    #+#              #
-#    Updated: 2024/04/04 18:11:32 by sben-tay         ###   ########.fr        #
+#    Updated: 2024/04/09 16:41:24 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Définitions de base
 
 NAME = pipex
+PRINTF = ./external/PRINTF
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror 
 CPPFLAGS = -I./include
@@ -67,9 +68,13 @@ $(NAME):
 # @echo "Done !"
 #=============================================================================================
 
+# Règle pour compiler printf
+
+	@$(MAKE) -C $(PRINTF)
+
 # Règle pour créer l'exécutable push_swap
 
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) -L$(PRINTF) -lftprintf -o $(NAME)
 
 # Règles pour nettoyer les fichiers objets et l'exécutable
 
