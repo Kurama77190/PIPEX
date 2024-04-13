@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/12 23:29:16 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:47:30 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_setup_first_children(t_pipex *data, int i)
 }
 
 /* ******************************* */
-/*   👶  SETUP LAST CHILDREN 👶   */
+/*   👶  SETUP LAST CHILDREN 👶    */
 /* ******************************* */
 
 int	ft_setup_last_children(t_pipex *data, int i)

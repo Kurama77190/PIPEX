@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/13 05:11:29 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:31:41 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,14 @@ int	ft_pipex(t_pipex data)
 	- CHECK ALL MEMORY LEAKS... STARTING.
 	- IMPLEMENT MULTI PIPE CHILDREN... STARTING.
 	- IMPLEMENT
+	- TODO: CHANGER WAIT PAR WAIT PID. LES ENFANTS NE S ATTENDS PAS. RISQUE DE SUPERPOSITION.
+	- FIXME:
+
+	- TODO: EXECVE LIBERE LA MEMOIRE DES POINTEURS DONNER EN PARAMETRE, ADAPTER LE CODE EN CONSEQUENCES
+	- FIXME:
+
+	- TODO: RESTRUCTURER LES FONCTIONS PROCESSUS DE CHILDREN.C
+	- FIXME:
 	
 */
 
