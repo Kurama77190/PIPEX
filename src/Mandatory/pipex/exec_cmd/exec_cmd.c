@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/11 14:06:19 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/12 23:18:57 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_exec_absolut_path_cmd(char **argv, char **envp, int i)
 		free_split(cmd);
 		return (ERROR);
 	}
-	if (execve(path, cmd, envp) == ERROR)
+	if (execve(cmd[0], cmd, envp) == ERROR)
 		ft_error_msg("execve");
 	free_split(cmd);
 	return (SUCCESS);
@@ -92,5 +92,13 @@ int	ft_search_path_cmd(char **argv, char **envp, int i)
 
 bool	ft_absolut_path_cmd(char *argv)
 {
-	return (access(argv, F_OK) == SUCCESS && access(argv, X_OK) == SUCCESS);
+	char	**tmp;
+
+	tmp = ft_split(argv, ' ');
+	if (!tmp)
+		return NULL;
+	if (access(tmp[0], F_OK) == SUCCESS)
+		if (access(tmp[0], X_OK) == SUCCESS)
+			return (free_split(tmp), true);
+	return (false);
 }

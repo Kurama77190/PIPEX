@@ -6,25 +6,47 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 16:01:20 by sben-tay          #+#    #+#              #
-#    Updated: 2024/04/09 16:41:24 by sben-tay         ###   ########.fr        #
+#    Updated: 2024/04/13 01:59:26 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+MAKEFLAGS += --no-print-directory
 
 # Définitions de base
 
 NAME = pipex
+NAME_BNS = pipex_bonus
 PRINTF = ./external/PRINTF
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror 
 CPPFLAGS = -I./include
-#=================================================__SRC__OF__PROJECT__=============================================================================
-# SRC = $(wildcard ./src/*.c)
-SRC = $(wildcard ./src/*.c) $(shell find ./src -type f -name '*.c')
-#==================================================================================================================================================
+
+
+# Définitions de chemin
+
+LIB = src/Mandatory/lib/
+PIPEX = src/Mandatory/pipex/
+SECURITY = src/Mandatory/security/
 
 # Définitions des fichiers sources et objets
 
-OBJ = $(SRC)
+#=================================================__SRC__OF__PROJECT__=============================================================================
+SRC = src/Mandatory/main.c \
+	$(LIB)free_split.c $(LIB)ft_putstr_fd.c $(LIB)ft_split_envp.c $(LIB)ft_split.c $(LIB)ft_strjoin.c $(LIB)ft_strlen.c $(LIB)ft_strncmp.c \
+	$(PIPEX)exec_cmd/exec_cmd.c $(PIPEX)path_functions/get_cmd.c $(PIPEX)prossessus/children.c \
+	$(SECURITY)msg_error.c
+
+SRC_BNS = $(wildcard ./src/Bonus/*.c) $(shell find ./src/Bonus -type f -name '*.c')
+
+
+# Crée le dossier BUILD si nécessaire
+$(shell mkdir -p $(BUILD))
+
+OBJ = $(SRC:.c=.o)
+OBJ_BNS = $(SRC_BNS:.c=.o)
+#==================================================================================================================================================
+
+
 
 # Règles des couleurs
 
@@ -38,8 +60,10 @@ BLANC = \033[0;37m
 
 all:	$(NAME)
 
-$(NAME):
-#===========================================ASCII_MOD===========================================
+$(NAME): $(OBJ)
+
+
+#==================================ASCII_MOD_COMPILATION==================================
 
 	@echo 🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟩🟩🟩🟩🟩🟦
 	@echo 🟦🟦🟦🟦🟦🟦🟦🟦🟦🟨🟨🟨🟦🟨🟦🟨🟨🟨🟦🟨🟨🟨🟦🟨🟨🟦🟨🟨🟦🟦🟦🟦🟩🟩🟩🟩🟩🟦
@@ -53,40 +77,53 @@ $(NAME):
 	@echo 🟦🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦
 	@echo 🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫
 	@echo 🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫
-# 
+#
 # @echo "$(GREEN)"
 
 # @echo -n "Compilation progress: ["
 # @for i in $$(seq 1 50); do \
-#     sleep 0.1; \
-#     echo -n "#"; \
+# 	sleep 0.1; \
+# 	echo -n "#"; \
 # done
 # @echo "] 100 %"
 
 # @echo "$(CYAN)Starting compilation..."
-# @sleep 5 # Simule la compilation
+# @echo "Starting external projects $(MAGENTA)PRINTF$(CYAN) and $(MAGENTA)GNL$(CYAN) compilations..."
+# @sleep 1
+	@$(MAKE) $(MAKEFLAGS) -C $(PRINTF)
+# @echo "Starting project $(MAGENTA)PIPEX$(CYAN)..."
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) -L$(PRINTF) -lftprintf -o $(NAME)
+
+# @sleep 2
 # @echo "Done !"
 #=============================================================================================
 
-# Règle pour compiler printf
 
-	@$(MAKE) -C $(PRINTF)
+%.o:%.c   
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-# Règle pour créer l'exécutable push_swap
 
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) -L$(PRINTF) -lftprintf -o $(NAME)
+bonus: $(OBJ_BNS) printf # Règle pour créer l'exécutable pipex_BNS
 
-# Règles pour nettoyer les fichiers objets et l'exécutable
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ_BNS) -L$(PRINTF) -lftprintf -o $(NAME_BNS)
 
-clean:
+
+clean: # Règles pour nettoyer les fichiers objets
+
+	@$(MAKE) -C $(PRINTF) clean
 	@echo "$(RED)Cleaning up..."
-	@rm -f $(NAME)
+	@rm -f $(OBJ) $(OBJ_BNS)
 	@echo "Done !"
 
-fclean: clean
 
-# Règle pour recompiler
-re: fclean all
+fclean: clean # Règles pour nettoyer les fichiers objets et l'exécutable
 
-# Pour éviter les conflits avec des fichiers du même nom
-.PHONY: all clean fclean re
+	@$(MAKE) -C $(PRINTF) fclean
+	@rm -f $(NAME)
+	@rm -f $(NAME_BNS)
+
+
+re: fclean all # Règle pour recompiler
+
+
+.PHONY: all clean fclean re bonus # Pour éviter les conflits avec des fichiers du même nom
