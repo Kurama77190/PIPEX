@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 16:01:20 by sben-tay          #+#    #+#              #
-#    Updated: 2024/04/13 01:59:26 by sben-tay         ###   ########.fr        #
+#    Updated: 2024/04/13 04:49:49 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ CPPFLAGS = -I./include
 LIB = src/Mandatory/lib/
 PIPEX = src/Mandatory/pipex/
 SECURITY = src/Mandatory/security/
+BUILD = builder/
 
 # Définitions des fichiers sources et objets
 
@@ -42,8 +43,8 @@ SRC_BNS = $(wildcard ./src/Bonus/*.c) $(shell find ./src/Bonus -type f -name '*.
 # Crée le dossier BUILD si nécessaire
 $(shell mkdir -p $(BUILD))
 
-OBJ = $(SRC:.c=.o)
-OBJ_BNS = $(SRC_BNS:.c=.o)
+OBJ = $(SRC:%.c=$(BUILD)%.o)
+OBJ_BNS = $(SRC_BNS:%.c=$(BUILD)%.o)
 #==================================================================================================================================================
 
 
@@ -78,32 +79,36 @@ $(NAME): $(OBJ)
 	@echo 🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫
 	@echo 🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫
 #
-# @echo "$(GREEN)"
+	@echo "$(GREEN)"
 
-# @echo -n "Compilation progress: ["
-# @for i in $$(seq 1 50); do \
-# 	sleep 0.1; \
-# 	echo -n "#"; \
-# done
-# @echo "] 100 %"
+	@echo -n "Compilation progress: ["
+	@for i in $$(seq 0.5 50); do \
+		sleep 0.1; \
+		echo -n "#"; \
+	done
+	@echo "] 100 %"
 
-# @echo "$(CYAN)Starting compilation..."
-# @echo "Starting external projects $(MAGENTA)PRINTF$(CYAN) and $(MAGENTA)GNL$(CYAN) compilations..."
-# @sleep 1
+	@echo "$(CYAN)Starting compilation..."
+	@echo "Starting external projects $(MAGENTA)PRINTF$(CYAN) and $(MAGENTA)GNL$(CYAN) compilations..."
+	@sleep 1
 	@$(MAKE) $(MAKEFLAGS) -C $(PRINTF)
-# @echo "Starting project $(MAGENTA)PIPEX$(CYAN)..."
+	@echo "Starting project $(MAGENTA)PIPEX$(CYAN)..."
 	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) -L$(PRINTF) -lftprintf -o $(NAME)
 
-# @sleep 2
-# @echo "Done !"
+	@sleep 2
+	@echo "Done !"
 #=============================================================================================
 
 
 %.o:%.c   
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
+$(BUILD)%.o: %.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-bonus: $(OBJ_BNS) printf # Règle pour créer l'exécutable pipex_BNS
+
+bonus: $(OBJ_BNS) # Règle pour créer l'exécutable pipex_BNS
 
 	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ_BNS) -L$(PRINTF) -lftprintf -o $(NAME_BNS)
 
@@ -112,7 +117,7 @@ clean: # Règles pour nettoyer les fichiers objets
 
 	@$(MAKE) -C $(PRINTF) clean
 	@echo "$(RED)Cleaning up..."
-	@rm -f $(OBJ) $(OBJ_BNS)
+	@rm -rf $(BUILD)
 	@echo "Done !"
 
 
