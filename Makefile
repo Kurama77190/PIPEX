@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 16:01:20 by sben-tay          #+#    #+#              #
-#    Updated: 2024/04/13 04:49:49 by sben-tay         ###   ########.fr        #
+#    Updated: 2024/04/13 11:01:32 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,21 +82,21 @@ $(NAME): $(OBJ)
 	@echo "$(GREEN)"
 
 	@echo -n "Compilation progress: ["
-	@for i in $$(seq 0.5 50); do \
-		sleep 0.1; \
+	@for i in $$(seq 0.1 50); do \
+		sleep 0.02; \
 		echo -n "#"; \
 	done
 	@echo "] 100 %"
 
 	@echo "$(CYAN)Starting compilation..."
 	@echo "Starting external projects $(MAGENTA)PRINTF$(CYAN) and $(MAGENTA)GNL$(CYAN) compilations..."
-	@sleep 1
+	@sleep 2
 	@$(MAKE) $(MAKEFLAGS) -C $(PRINTF)
 	@echo "Starting project $(MAGENTA)PIPEX$(CYAN)..."
 	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ) -L$(PRINTF) -lftprintf -o $(NAME)
 
 	@sleep 2
-	@echo "Done !"
+	@echo "Done !$(BLANC)"
 #=============================================================================================
 
 
