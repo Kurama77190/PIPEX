@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/12 23:18:57 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:18:37 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 /*  🌟 CHECK_ABSOLUT_PATH_AND_EXEC 🌟  */
 /* ************************************ */
 
-int	ft_exec_cmd(char **argv, char **envp, int i)
+int	ft_exec_cmd(t_pipex *data, int i)
 {
-	if (!ft_absolut_path_cmd(argv[i]))
+	if (!ft_absolut_path_cmd(data->argv[i]))
 	{
-		if (ft_search_path_cmd(argv, envp, i) == ERROR)
+		if (ft_search_path_cmd(data, i) == ERROR)
 			return (ERROR);
 	}
-	if (ft_absolut_path_cmd(argv[i]))
+	if (ft_absolut_path_cmd(data->argv[i]))
 	{
-		if (ft_exec_absolut_path_cmd(argv, envp, i) == ERROR)
-			return (ERROR);	
+		if (ft_exec_absolut_path_cmd(data, i) == ERROR)
+			return (ERROR);
 	}
 	return (SUCCESS);
 }
@@ -35,23 +35,22 @@ int	ft_exec_cmd(char **argv, char **envp, int i)
 /*  🌟 EXECVE_WITH_ABSOLUT_PATH 🌟  */
 /* ********************************* */
 
-int	ft_exec_absolut_path_cmd(char **argv, char **envp, int i)
+int	ft_exec_absolut_path_cmd(t_pipex *data, int i)
 {
-	char	*path;
-	char	**cmd;
-
-	cmd = ft_split(argv[i], ' ');
-	if (!cmd)
+	data->cmd = ft_split(data->argv[i], ' ');
+	if (data->cmd == NULL)
 		return (ERROR);
-	path = argv[i];
-	if (!path)
+	data->path = data->argv[i];
+	if (data->path == NULL)
 	{
-		free_split(cmd);
+		free_split(data->cmd);
 		return (ERROR);
 	}
-	if (execve(cmd[0], cmd, envp) == ERROR)
+	if (execve(data->cmd[0], data->cmd, data->envp) == ERROR)
+	{
 		ft_error_msg("execve");
-	free_split(cmd);
+		free_split(data->cmd);
+	}
 	return (SUCCESS);
 }
 
@@ -59,30 +58,25 @@ int	ft_exec_absolut_path_cmd(char **argv, char **envp, int i)
 /*  🌟 SEARCH_PATH_CMD_AND_EXECVE 🌟  */
 /* *********************************** */
 
-int	ft_search_path_cmd(char **argv, char **envp, int i)
+int	ft_search_path_cmd(t_pipex *data, int i)
 {
-	char	**cmd;
-	char	*path;
-
-	if (!envp[0])
-		return (ft_error_msg(argv[i]), ERROR);
-	cmd = ft_split(argv[i], ' ');
-	if (!cmd)
+	if (data->envp[0] == NULL)
+		return (ft_error_msg(data->argv[i]), ERROR);
+	data->cmd = ft_split(data->argv[i], ' ');
+	if (data->cmd[0] == NULL)
 		return (ft_error_msg("Error split"), ERROR);
-	path = get_cmd(argv, envp, i);
-	if (!path)
+	data->path = get_cmd(data, i);
+	if (data->path == NULL)
 	{
-		free_split(cmd);
+		free_split(data->cmd);
 		return (ERROR);
 	}
-	if (execve(path, cmd, envp) == ERROR)
+	if (execve(data->path, data->cmd, data->envp) == ERROR)
 	{
-		free_split(cmd);
-		free(path);
+		free_split(data->cmd);
+		free(data->path);
 		ft_error_msg("execve");
 	}
-	free_split(cmd);
-	free(path);
 	return (SUCCESS);
 }
 
@@ -96,7 +90,7 @@ bool	ft_absolut_path_cmd(char *argv)
 
 	tmp = ft_split(argv, ' ');
 	if (!tmp)
-		return NULL;
+		return (NULL);
 	if (access(tmp[0], F_OK) == SUCCESS)
 		if (access(tmp[0], X_OK) == SUCCESS)
 			return (free_split(tmp), true);

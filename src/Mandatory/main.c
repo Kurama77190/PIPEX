@@ -6,19 +6,17 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/13 18:31:41 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:30:21 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_pipex(t_pipex data);
-
 /* ********************* */
 /* ⚙️ MAIN PROGRAMME ⚙️ */
 /* ********************* */
 
-//TODO: coucou
+char	**get_path(t_pipex *data);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -29,6 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	data.argc = argc;
 	data.argv = argv;
 	data.envp = envp;
+	data.cmd = NULL;
+	data.path = NULL;
 	ft_pipex(data);
 	return (0);
 }
@@ -49,13 +49,11 @@ int	ft_pipex(t_pipex data)
 	{
 		if (i == 2)
 			pipe = ft_setup_first_children(&data, i);
-		if (i == data.argc - 2)
+		if (i == (data.argc - 2))
 		{
 			pipe = ft_setup_last_children(&data, i);
 			break ;
 		}
-		// else
-			// pipe = ft_setup_children(&data, i);
 		i++;
 	}
 	while (wait(&status) > 0)
@@ -70,7 +68,7 @@ int	ft_pipex(t_pipex data)
 /*
 	- PARSING ...
 	- FOUND PATH OF ALL FUNCTION OK ! With get_cmd
-	- COMMANDS CHECK FILE DESCRIPTOR OPEN OR CLOSE : valgrind --track-fds=yes --trace-children=yes.
+	- COMMANDS CHECK FILE DESCRIPTOR OPEN OR CLOSE :valgrind --track-fds=yes --trace-children=yes --leak-check=full --show-leak-kinds=all 
 	- IMPLEMENT 2 CHILDREN. THEN GO IMPLEMENT BONUS PARTY.
 	- ESTEREGG : 42 | "ma tete va serrer."
 	- PARSING OK ! NEED TO STORE AND SORT THE FUNCTIONS
@@ -86,7 +84,7 @@ int	ft_pipex(t_pipex data)
 	- FIXME:
 
 	- TODO: EXECVE LIBERE LA MEMOIRE DES POINTEURS DONNER EN PARAMETRE, ADAPTER LE CODE EN CONSEQUENCES
-	- FIXME:
+	- FIXME: EXECVE LIBERE LA MEMOIRE DES PARAMETRES DONNER AUTOMATIQUEMENT EN CAS DE SUCCES.
 
 	- TODO: RESTRUCTURER LES FONCTIONS PROCESSUS DE CHILDREN.C
 	- FIXME:

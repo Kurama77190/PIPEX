@@ -6,11 +6,13 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/13 17:47:30 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:33:50 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	free_cmd_and_path(t_pipex *data);
 
 /* ******************************* */
 /* 	 👶 SETUP FIRST CHILDREN 👶   */
@@ -33,9 +35,9 @@ int	ft_setup_first_children(t_pipex *data, int i)
 		close(data->fd_in);
 		dup2(data->fd[1], STDOUT_FILENO);
 		close(data->fd[1]);
-		if (ft_exec_cmd(data->argv, data->envp, i) == ERROR)
-			exit(127);
+		ft_exec_cmd(data, i);
 	}
+	free_cmd_and_path(data);
 	close(data->fd[1]);
 	close(data->fd_in);
 	return (SUCCESS);
@@ -61,10 +63,18 @@ int	ft_setup_last_children(t_pipex *data, int i)
 		close(data->fd_out);
 		dup2(data->fd[0], STDIN_FILENO);
 		close(data->fd[0]);
-		if (ft_exec_cmd(data->argv, data->envp, i) == ERROR)
-			exit(127);
+		ft_exec_cmd(data, i);
 	}
+	free_cmd_and_path(data);
 	close(data->fd[0]);
 	close(data->fd_out);
 	return (SUCCESS);
+}
+
+void	free_cmd_and_path(t_pipex *data)
+{
+	if (data->cmd)
+		free_split(data->cmd);
+	if (data->path)
+		free(data->path);
 }

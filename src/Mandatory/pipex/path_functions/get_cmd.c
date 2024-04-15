@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/08 18:59:07 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:14:30 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,57 @@
 
 // LAST FOLDER FOR STORING THE FUNCTIONS RELATED TO THE PATH
 
-// static void	msg_free_error(char **commands, char **path);
 static void	free_success(char **commands, char **path);
 static bool	access_success(char *cmd_path);
 
-char	**get_path(char **envp)
+char	**get_path(t_pipex *data)
 {
 	int		i;
 	char	*env;
-	char	**path;
+	char	**path_;
 
 	i = 0;
-	while (envp[i])
+	while (data->envp[i])
 	{
-		if (ft_strncmp(envp[i], "PATH", 4) == SUCCESS)
+		if (ft_strncmp(data->envp[i], "PATH", 4) == SUCCESS)
 		{
-			env = envp[i] + 5;
+			env = data->envp[i] + 5;
 			break ;
 		}
 		i++;
 	}
-	if (envp[i] == NULL)
-		return (NULL);	
-	else
-		path = ft_split_envp(env, ':');
-	if (!path)
+	if (data->envp[i] == NULL)
 		return (NULL);
-	return (path);
+	else
+		path_ = ft_split_envp(env, ':');
+	if (path_ == NULL)
+		return (NULL);
+	return (path_);
 }
 
-char	*get_cmd(char **argv, char **envp, int i)
+char	*get_cmd(t_pipex *data, int i)
 {
-	char	**path;
+	char	**path_env;
 	char	*cmd_path;
 	char	**commands;
 	int		index_tab;
 
 	index_tab = 0;
-	commands = ft_split(argv[i], ' ');
+	commands = ft_split(data->argv[i], ' ');
 	if (commands == NULL)
 		return (NULL);
-	path = get_path(envp);
-	if (!path)
+	path_env = get_path(data);
+	if (path_env == NULL)
 		return (free_split(commands), NULL);
-	while (path[index_tab])
+	while (path_env[index_tab])
 	{
-		cmd_path = ft_strjoin(path[index_tab], commands[0]);
+		cmd_path = ft_strjoin(path_env[index_tab], commands[0]);
 		if (access_success(cmd_path))
-			return (free_success(commands, path), cmd_path);
+			return (free_success(commands, path_env), cmd_path);
 		index_tab++;
 		free(cmd_path);
 	}
-	ft_error_cmd(commands, path);
+	ft_error_cmd(commands, path_env);
 	return (NULL);
 }
 
@@ -76,13 +75,6 @@ static bool	access_success(char *cmd_path)
 		return (true);
 	return (false);
 }
-
-// static void	msg_free_error(char **commands, char **path)
-// {
-// 	perror(commands[0]);
-// 	free_split(commands);
-// 	free_split(path);
-// }
 
 static void	free_success(char **commands, char **path)
 {
