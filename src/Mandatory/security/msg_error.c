@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:45:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/09 17:30:41 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 02:26:15 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ void	ft_error_arguments(void)
 	exit(EXIT_FAILURE);
 }
 
-char	*ft_error_cmd(char **commands, char **path)
+void	ft_error_cmd(char *cmd)
 {
-	dprintf(2, "bash: %s: command not found\n", commands[0]);
-	free_split(commands);
-	free_split(path);
-	return (NULL);
+	dprintf(2, "bash: %s: command not found\n", cmd);
+	exit(127);
 }
+
 
 // isoler les messages erreurs : fork, open, 

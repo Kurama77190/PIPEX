@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/15 18:18:37 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 02:32:33 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int	ft_exec_cmd(t_pipex *data, int i)
 {
 	if (!ft_absolut_path_cmd(data->argv[i]))
 	{
-		if (ft_search_path_cmd(data, i) == ERROR)
-			return (ERROR);
+		if (ft_search_path_cmd(data, i) == SUCCESS)
+			return (SUCCESS);
 	}
 	if (ft_absolut_path_cmd(data->argv[i]))
 	{
-		if (ft_exec_absolut_path_cmd(data, i) == ERROR)
-			return (ERROR);
+		if (ft_exec_absolut_path_cmd(data, i) == SUCCESS)
+			return (SUCCESS);
 	}
-	return (SUCCESS);
+	return (ERROR);
 }
 
 /* ********************************* */
@@ -89,10 +89,13 @@ bool	ft_absolut_path_cmd(char *argv)
 	char	**tmp;
 
 	tmp = ft_split(argv, ' ');
-	if (!tmp)
+	if (tmp == NULL)
 		return (NULL);
 	if (access(tmp[0], F_OK) == SUCCESS)
+	{
 		if (access(tmp[0], X_OK) == SUCCESS)
 			return (free_split(tmp), true);
+	}
+	free_split(tmp);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/15 16:36:41 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 02:54:45 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ typedef struct s_pipex
 	int		fd[2];
 	int		fd_in;
 	int		fd_out;
+	int		return_code;
 	int		argc;
 	char	**cmd;
-	char	*path;
 	char	**argv;
 	char	**envp;
+	char	*path;
 	pid_t	pid;
 }			t_pipex;
 
@@ -69,8 +70,6 @@ char		**ft_split_envp(char const *s, char c);
 
 char		**ft_split(char const *s, char c);
 
-// size_t		ft_strlen(char *str);
-
 char		*ft_strjoin(char *s1, char *s2);
 
 void		free_split(char **strs);
@@ -79,7 +78,7 @@ void		ft_putstr_fd(char *s, int fd);
 
 /*===========================__MSG_ERROR_===========================*/
 
-char		*ft_error_cmd(char **commands, char **path);
+void		ft_error_cmd(char *cmd);
 
 int			ft_error_msg(char *msg_error);
 

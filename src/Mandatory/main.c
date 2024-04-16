@@ -6,11 +6,13 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/15 18:30:21 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 03:22:40 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	init_struct(t_pipex data, int argc, char **argv, char **envp);
 
 /* ********************* */
 /* ⚙️ MAIN PROGRAMME ⚙️ */
@@ -29,12 +31,11 @@ int	main(int argc, char **argv, char **envp)
 	data.envp = envp;
 	data.cmd = NULL;
 	data.path = NULL;
-	ft_pipex(data);
-	return (0);
+	return (ft_pipex(data));
 }
 
 /* ********************* */
-/* 🥇 MAIN PROGRAMME 🥇 */
+/*   🥇 MAIN PIPEX 🥇   */
 /* ********************* */
 
 int	ft_pipex(t_pipex data)
@@ -57,8 +58,11 @@ int	ft_pipex(t_pipex data)
 		i++;
 	}
 	while (wait(&status) > 0)
-		;
-	return (0);
+	{
+		if (WIFEXITED(status))
+			data.return_code = WEXITSTATUS(status);
+	}
+	return (data.return_code);
 }
 
 /* **************** */
@@ -81,14 +85,16 @@ int	ft_pipex(t_pipex data)
 	- IMPLEMENT MULTI PIPE CHILDREN... STARTING.
 	- IMPLEMENT
 	- TODO: CHANGER WAIT PAR WAIT PID. LES ENFANTS NE S ATTENDS PAS. RISQUE DE SUPERPOSITION.
-	- FIXME:
+	- FIXME: OK ! WAITPID IMPLEMENTED.
 
 	- TODO: EXECVE LIBERE LA MEMOIRE DES POINTEURS DONNER EN PARAMETRE, ADAPTER LE CODE EN CONSEQUENCES
-	- FIXME: EXECVE LIBERE LA MEMOIRE DES PARAMETRES DONNER AUTOMATIQUEMENT EN CAS DE SUCCES.
+	- FIXME: EXECVE NE LIBERE PAS LA MEMOIRE DES PARAMETRES DONNER ! ATTENTION ! FIXED.
 
 	- TODO: RESTRUCTURER LES FONCTIONS PROCESSUS DE CHILDREN.C
-	- FIXME:
+	- FIXME: EN COURS...
 	
+	-TODO: IMPLEMENTER FT_DPRINTF OU REMPLACER PAR FT_PUTSTR_FD
+	FIXME: EN COURS...
 */
 
 

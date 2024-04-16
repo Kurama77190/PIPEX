@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/15 18:33:50 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 03:09:28 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ int	ft_setup_first_children(t_pipex *data, int i)
 		close(data->fd_in);
 		dup2(data->fd[1], STDOUT_FILENO);
 		close(data->fd[1]);
-		ft_exec_cmd(data, i);
+		if (ft_exec_cmd(data, i) == ERROR)
+		{
+			data->return_code = 127;
+			ft_error_cmd(data->argv[i]);
+		}
 	}
 	free_cmd_and_path(data);
 	close(data->fd[1]);
@@ -44,7 +48,7 @@ int	ft_setup_first_children(t_pipex *data, int i)
 }
 
 /* ******************************* */
-/*   👶  SETUP LAST CHILDREN 👶    */
+/*   👶  SETUP LAST CHILDREN 👶   */
 /* ******************************* */
 
 int	ft_setup_last_children(t_pipex *data, int i)
@@ -53,6 +57,7 @@ int	ft_setup_last_children(t_pipex *data, int i)
 		O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->fd_out == ERROR)
 		return (ft_error_msg("open"));
+	waitpid(data->pid, NULL, 0);
 	data->pid = fork();
 	if (data->pid == ERROR)
 		return (ft_error_msg("fork"));
@@ -63,7 +68,8 @@ int	ft_setup_last_children(t_pipex *data, int i)
 		close(data->fd_out);
 		dup2(data->fd[0], STDIN_FILENO);
 		close(data->fd[0]);
-		ft_exec_cmd(data, i);
+		if (ft_exec_cmd(data, i) == ERROR)
+			ft_error_cmd(data->argv[i]);
 	}
 	free_cmd_and_path(data);
 	close(data->fd[0]);
