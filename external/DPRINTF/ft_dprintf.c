@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 14:15:34 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 18:01:36 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/17 00:00:08 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_arg(char c, va_list arg, int fd, int *compteur)
 		ft_putnbr_base((unsigned int)va_arg(arg, unsigned int), \
 		fd, compteur, c);
 	else if (c == 'X')
-		ft_putnbr_base_X((unsigned int)va_arg(arg, unsigned int), \
+		ft_putnbr_base_x((unsigned int)va_arg(arg, unsigned int), \
 		fd, compteur, c);
 	else if (c == 'p')
 		ft_putnbr_base((unsigned long long)va_arg(arg, unsigned long long), \
@@ -66,61 +66,3 @@ int	ft_dprintf(int fd, const char *s, ...)
 	free(str);
 	return (compteur);
 }
-
-// int main (void)
-// {
-// 	// char c = 'c';
-// 	printf("%d", printf("abc%"));	
-// 	printf("\n");
-// 	printf("%d", ft_printf("abc%"));
-// }
-
-
-
-
-
-
-// 	ft_printf("%d", -123456677);
-// 	printf("\n");
-// 	ft_printf("%d", -1234566733333337);
-// 	printf("\n");
-// 	ft_printf("%d", 123456677);
-// 	printf("\n");
-// 	ft_printf("%d", 111111113456111677);
-// 	printf("\n");
-// 	ft_printf("%s", "1222121213456677");
-// 	printf("\n");
-// 	ft_printf("%s%s%d", "-1222121213456677 ", "salut les zgueg ", 444);
-// 	printf("\n");
-// 	ft_printf("%x",5555);
-// 	printf("\n");
-// 	ft_printf("%p", 100000000);
-// 	printf("\n");
-	
-
-// }
-
-// int main()
-// {
-	
-// 	ft_printf("%c", 'a');
-// 	printf("\n");
-// 	ft_printf("%c%c%c*", '\0', '1', 1);
-// 	printf("\n");
-// 	ft_printf("%c small string", 'a');
-// 	printf("\n");
-// 	ft_printf("%c small string", '\0');
-// 	printf("\n");
-// 	ft_printf("the char is: %c", 'a');
-// 	printf("\n");
-// 	ft_printf("the char is: %c", '\0');
-// 	printf("\n");
-// 	ft_printf("n%cs", 'a');
-// 	printf("\n");
-// 	ft_printf("%c%c%c%c%c", 'a', 'i', 'u', 'e', 'o');
-// 	printf("\n");
-// 	ft_printf("l%cl%cl%cl%cl%c", 'a', 'i', 'u', 'e', 'o');
-// 	printf("\n");
-// 	ft_printf("l%cl%cl%cl%cl%c", '\0', '\0', '\0', 'e', '\0');
-// 	printf("\n");
-// }

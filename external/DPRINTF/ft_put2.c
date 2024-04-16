@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:30:45 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 17:52:27 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/17 00:03:43 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	ft_putnbr_base(\
 		unsigned long long nbr, int fd, int *compteur, char c)
 {
-	char base[]= "0123456789abcdef";
+	char	*base;
+
+	base = "0123456789abcdef";
 	if (c == 'p')
 	{
 		if (nbr != 0)

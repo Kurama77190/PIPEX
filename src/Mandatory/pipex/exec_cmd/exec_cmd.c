@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 19:39:33 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/17 00:04:21 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ bool	ft_absolut_path_cmd(char *argv)
 	char	**tmp;
 
 	if (argv[0] == '\0')
-		return false;
+		return (false);
 	tmp = ft_split(argv, ' ');
 	if (tmp == NULL)
 		return (NULL);

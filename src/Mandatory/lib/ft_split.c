@@ -6,12 +6,11 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:40:25 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/06 02:41:24 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 23:57:52 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
 
 static int	ft_nombremot(char *str, char c);
 static int	ft_lenmot(char *str, char c);

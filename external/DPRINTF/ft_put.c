@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 14:02:29 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 17:29:47 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 23:59:43 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,12 @@ void	ft_putnbr_unsigned(unsigned int nb, int fd, int *compteur)
 	}
 }
 
-void	ft_putnbr_base_X(\
+void	ft_putnbr_base_x(\
 		unsigned long long nbr, int fd, int *compteur, char c)
 {
-	char base[]= "0123456789ABCDEF";
+	char	*base;
+
+	base = "0123456789ABCDEF";
 	if (c == 'p')
 	{
 		if (nbr != 0)
@@ -89,47 +91,3 @@ void	ft_putnbr_base_X(\
 		ft_putchar(base[nbr % 16], fd, compteur);
 	}
 }
-
-// 	int position_ds_tableau = c /ft_strlen(base);
-// 	char char_a_imprimer = base[position_ds_tableau];
-// }
-// int main (void)
-// {
-// 	int i = INT_MAX;
-// 	int compteur = 0;
-// 	char *str = "";
-
-// 	printf("putnbr de printf : \n");
-// 	ft_putnbr_unsigned(i, &compteur);
-// 	printf("\n");
-// 	printf("resultat compteur : %d\n", compteur);
-
-// 	printf("putstr de printf\n");
-// 	ft_putstr(str, &compteur);
-// 	printf("\n");
-// 	printf("nombre de lettre : %d", compteur);
-
-// }
-
-// int main (void)
-// {
-// 	int i = 1654654;
-// 	char c = 'X';
-// 	char *base = "0123456789abcdef";
-// 	int compteur = 0;
-
-// 	printf("%X", i);
-// 	printf("\n");
-// 	ft_putnbr_base(i, base, &compteur, c);
-// 	printf("\n");
-// 	printf("%d\n", compteur);
-// }
-
-// int main (void)
-// {
-// 	char *str = "salut les noobs";
-// 	int	compteur = 0;
-// 	ft_putstr(str, &compteur);
-// 	printf("\n");
-// 	printf("%d", compteur);
-// }
