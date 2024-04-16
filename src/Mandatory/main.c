@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 03:46:46 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 20:13:10 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,12 @@ int	ft_pipex(t_pipex data)
 	- TODO: EXECVE LIBERE LA MEMOIRE DES POINTEURS DONNER EN PARAMETRE, ADAPTER LE CODE EN CONSEQUENCES
 	- FIXME: EXECVE NE LIBERE PAS LA MEMOIRE DES PARAMETRES DONNER ! ATTENTION ! FIXED.
 
-	- TODO: RESTRUCTURER LES FONCTIONS PROCESSUS DE CHILDREN.C
-	- FIXME: EN COURS...
 	
 	- TODO: WRITE LES MESSAGES D ERREUR DANS STDERR
-	- FIXME: EN COURS...
+	- FIXME: FIXED
 	
 	- TODO: GERER LE CAS OU LES CMD SONT VIDES (WHITESPACE) ou NULL
-	- FIXME: EN COURS...
+	- FIXME: FIXED
 	
 	- TODO: GERER LE CAS OU LES CMD N ONT PAS LES DROITS D EXECUSSION CODE EXIT (126)
 	- FIXME: EN COURS...
@@ -106,7 +104,8 @@ int	ft_pipex(t_pipex data)
 	- TODO: GERER LE CAS DE CETTE COMMANDE :./pipex Makefile yes cati outf
 	- FIXME: EN COURS...
 	
-	- TODO: 
+	- TODO: RESTRUCTURER LES FONCTIONS PROCESSUS DE CHILDREN.C
+	- FIXME: EN COURS...
 */
 
 

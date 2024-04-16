@@ -6,14 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 02:54:45 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:56:35 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "../external/PRINTF/ft_printf.h"
+# include "../external/DPRINTF/ft_printf.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -76,9 +76,11 @@ void		free_split(char **strs);
 
 void		ft_putstr_fd(char *s, int fd);
 
+bool		ft_only_space(char *str);
+
 /*===========================__MSG_ERROR_===========================*/
 
-void		ft_error_cmd(char *cmd);
+void	ft_error_cmd(pid_t pid, bool flag, char *cmd);
 
 int			ft_error_msg(char *msg_error);
 

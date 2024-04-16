@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 02:32:33 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:39:33 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	ft_exec_cmd(t_pipex *data, int i)
 {
 	if (!ft_absolut_path_cmd(data->argv[i]))
 	{
+		if (ft_only_space(data->argv[i]) || data->argv[i][0] == '\0')
+			return (ERROR);
 		if (ft_search_path_cmd(data, i) == SUCCESS)
 			return (SUCCESS);
 	}
@@ -88,6 +90,8 @@ bool	ft_absolut_path_cmd(char *argv)
 {
 	char	**tmp;
 
+	if (argv[0] == '\0')
+		return false;
 	tmp = ft_split(argv, ' ');
 	if (tmp == NULL)
 		return (NULL);

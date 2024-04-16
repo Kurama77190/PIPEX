@@ -9,8 +9,8 @@
 			"name": "(gdb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "/home/samy/42projet/PIPEX/pipex",
-			"args": ["/home/samy/42projet/PIPEX/Makefile", "pipi", "caca", "/dev/stdout"],
+			"program": "/sgoinfre/goinfre/Perso/sben-tay/Cursus/KURAMA77190_GIT/PIPEX/pipex",
+			"args": ["/dev/stdin", "caca", "pipi", "/dev/stdout"],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
 			"environment": [],
@@ -27,16 +27,16 @@
 					"text": "-gdb-set disassembly-flavor intel",
 					"ignoreFailures": true
 				},
-				// {
-                //     "description": "Set follow fork mode to child",
-                //     "text": "-gdb-set follow-fork-mode child",
-                //     "ignoreFailures": true
-                // },
 				{
-					"description": "Set follow fork mode to parent",
-					"text": "-gdb-set follow-fork-mode parent",
-					"ignoreFailures": true
-				},
+                    "description": "Set follow fork mode to child",
+                    "text": "-gdb-set follow-fork-mode child",
+                    "ignoreFailures": true
+                },
+				// {
+				// 	"description": "Set follow fork mode to parent",
+				// 	"text": "-gdb-set follow-fork-mode parent",
+				// 	"ignoreFailures": true
+				// },
 			]	
 		}
 

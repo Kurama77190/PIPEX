@@ -6,13 +6,13 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/24 21:36:43 by sben-tay          #+#    #+#              #
-#    Updated: 2024/04/13 02:06:37 by sben-tay         ###   ########.fr        #
+#    Updated: 2024/04/16 18:01:46 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MAKEFLAGS += --no-print-directory
 
-SRCS            =   ft_printf.c ft_put.c \
+SRCS            =   ft_dprintf.c ft_put.c ft_put2.c \
 					ft_strdup.c	ft_strlcpy.c ft_strlen.c 
 					 
 OBJS            = $(SRCS:.c=.o)
