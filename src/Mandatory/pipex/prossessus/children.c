@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 19:46:42 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/20 21:33:24 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_setup_first_children(t_pipex *data, int i)
 {
 	data->fd_in = open(data->argv[i - 1], O_RDONLY);
 	if (data->fd_in == ERROR)
-		return (ft_error_msg(data->argv[i - 1]), ERROR);
+		return (ft_error_msg(data->argv[i - 1]), SUCCESS);
 	if (pipe(data->fd) == ERROR)
 		return (ft_error_msg("pipe"));
 	data->pid = fork();
@@ -36,7 +36,10 @@ int	ft_setup_first_children(t_pipex *data, int i)
 		dup2(data->fd[1], STDOUT_FILENO);
 		close(data->fd[1]);
 		if (ft_exec_cmd(data, i) == ERROR)
-			ft_error_cmd(data->pid, false, data->argv[i]);
+		{
+			ft_error_cmd(data->argv[i]);
+			exit(127);
+		}
 	}
 	free_cmd_and_path(data);
 	close(data->fd[1]);
@@ -65,7 +68,10 @@ int	ft_setup_last_children(t_pipex *data, int i)
 		dup2(data->fd[0], STDIN_FILENO);
 		close(data->fd[0]);
 		if (ft_exec_cmd(data, i) == ERROR)
-			ft_error_cmd(data->pid, true, data->argv[i]);
+		{
+			ft_error_cmd(data->argv[i]);
+			exit(127);
+		}
 	}
 	free_cmd_and_path(data);
 	close(data->fd[0]);

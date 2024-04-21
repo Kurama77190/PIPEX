@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/15 21:43:44 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/20 23:02:08 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 // LAST FOLDER FOR STORING THE FUNCTIONS RELATED TO THE PATH
 
-static void	free_success(char **commands, char **path);
-static bool	access_success(char *cmd_path);
+static int	checker_access(char *cmd_path, char **commands, char **path_env);
 
 char	**get_path(t_pipex *data)
 {
@@ -59,8 +58,8 @@ char	*get_cmd(t_pipex *data, int i)
 	while (path_env[index_tab])
 	{
 		cmd_path = ft_strjoin(path_env[index_tab], commands[0]);
-		if (access_success(cmd_path))
-			return (free_success(commands, path_env), cmd_path);
+		if (checker_access(cmd_path, commands, path_env) == SUCCESS)
+			return (cmd_path);
 		index_tab++;
 		free(cmd_path);
 	}
@@ -69,16 +68,22 @@ char	*get_cmd(t_pipex *data, int i)
 	return (NULL);
 }
 
-static bool	access_success(char *cmd_path)
+static int	checker_access(char *cmd_path, char **commands, char **path_env)
 {
-	if (access(cmd_path, F_OK) == SUCCESS && \
-		access(cmd_path, X_OK) == SUCCESS)
-		return (true);
-	return (false);
-}
-
-static void	free_success(char **commands, char **path)
-{
-	free_split(commands);
-	free_split(path);
+	if (access(cmd_path, F_OK) == SUCCESS)
+	{
+		if (access(cmd_path, X_OK) == -1)
+		{
+			ft_error_msg(cmd_path);
+			free(cmd_path);
+			free_split(commands);
+			free_split(path_env);
+			exit(126);
+		}
+		free_split(commands);
+		free_split(path_env);
+		return (SUCCESS);
+	}
+	else
+		return (ERROR);
 }

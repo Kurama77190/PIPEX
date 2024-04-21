@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:45:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 23:57:32 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/20 18:51:37 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,11 @@ void	ft_error_arguments(void)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_error_cmd(pid_t pid, bool flag, char *cmd)
+void	ft_error_cmd(char *cmd)
 {
-	if (flag)
-	{
-		waitpid(pid, NULL, 0);
-		ft_dprintf(2, "bash: %s: command not found\n", cmd);
-		exit(127);
-	}
-	else
-	{
-		ft_dprintf(2, "bash: %s: command not found\n", cmd);
-		exit(0);
-	}
+	ft_dprintf(2, "bash: %s: command not found\n", cmd);
 }
+
+
 
 // isoler les messages erreurs : fork, open, 

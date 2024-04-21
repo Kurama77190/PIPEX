@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/17 00:04:29 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/20 18:53:35 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	ft_pipex(t_pipex data)
 	{
 		if (WIFEXITED(status))
 			data.return_code = WEXITSTATUS(status);
+		// printf("Exit status: %d\n", data.return_code);
 	}
 	return (data.return_code);
 }
