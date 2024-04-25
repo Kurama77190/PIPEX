@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/20 21:33:24 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/26 01:08:09 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ void	free_cmd_and_path(t_pipex *data);
 /* 	 👶 SETUP FIRST CHILDREN 👶   */
 /* ******************************* */
 
-int	ft_setup_first_children(t_pipex *data, int i)
+int	ft_setup_first_children(t_pipex *data, int i, size_t index_pid)
 {
 	data->fd_in = open(data->argv[i - 1], O_RDONLY);
 	if (data->fd_in == ERROR)
 		return (ft_error_msg(data->argv[i - 1]), SUCCESS);
 	if (pipe(data->fd) == ERROR)
 		return (ft_error_msg("pipe"));
-	data->pid = fork();
-	if (data->pid == ERROR)
+	data->pid[index_pid] = fork();
+	if (data->pid[index_pid] == ERROR)
 		return (ft_error_msg("fork"));
-	if (data->pid == 0)
+	if (data->pid[index_pid] == 0)
 	{
 		close(data->fd[0]);
 		dup2(data->fd_in, STDIN_FILENO);
@@ -51,16 +51,16 @@ int	ft_setup_first_children(t_pipex *data, int i)
 /*   👶  SETUP LAST CHILDREN 👶   */
 /* ******************************* */
 
-int	ft_setup_last_children(t_pipex *data, int i)
+int	ft_setup_last_children(t_pipex *data, int i, size_t index_pid)
 {
 	data->fd_out = open(data->argv[data->argc - 1], \
 		O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->fd_out == ERROR)
 		return (ft_error_msg("open"));
-	data->pid = fork();
-	if (data->pid == ERROR)
+	data->pid[index_pid] = fork();
+	if (data->pid[index_pid] == ERROR)
 		return (ft_error_msg("fork"));
-	if (data->pid == 0)
+	if (data->pid[index_pid] == 0)
 	{
 		close(data->fd[1]);
 		dup2(data->fd_out, STDOUT_FILENO);
