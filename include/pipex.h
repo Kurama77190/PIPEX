@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/26 04:15:03 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:43:07 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ bool		ft_absolut_path_cmd(char *argv);
 
 /*============================__LIB_FT__============================*/
 
+char		*ft_strchr(const char *s, int c);
+
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 char		**ft_split_envp(char const *s, char c);
@@ -80,9 +82,11 @@ bool		ft_only_space(char *str);
 
 /*===========================__MSG_ERROR_===========================*/
 
+void		*ft_memset(void *b, int c, size_t len);
+
 void		ft_error_cmd(char *cmd);
 
-void	ft_error_permission(char *cmd);
+void		ft_error_permission(char *cmd);
 
 int			ft_error_msg(char *msg_error);
 
