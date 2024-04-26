@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/20 23:02:08 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/26 01:22:28 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,8 @@ static int	checker_access(char *cmd_path, char **commands, char **path_env)
 {
 	if (access(cmd_path, F_OK) == SUCCESS)
 	{
-		if (access(cmd_path, X_OK) == -1)
+		if (access(cmd_path, X_OK) == ERROR)
 		{
-			ft_error_msg(cmd_path);
 			free(cmd_path);
 			free_split(commands);
 			free_split(path_env);

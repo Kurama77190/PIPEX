@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:45:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/20 18:51:37 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/26 01:34:43 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ void	ft_error_cmd(char *cmd)
 	ft_dprintf(2, "bash: %s: command not found\n", cmd);
 }
 
+void	ft_error_permission(char *cmd)
+{
+	ft_dprintf(2, "bash: %s: permission denied\n", cmd);
+}
 
 
 // isoler les messages erreurs : fork, open, 

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/26 01:08:19 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/26 04:23:57 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /* ⚙️ MAIN PROGRAMME ⚙️ */
 /* ********************* */
 
-char	**get_path(t_pipex *data);
+void	print_error_msg(t_pipex *data, int i, int index_pid);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -40,8 +40,7 @@ int	ft_pipex(t_pipex data)
 {
 	int		pipe;
 	int		i;
-	int		status;
-	size_t	index_pid;
+	int		index_pid;
 
 	i = 2;
 	pipe = 77190;
@@ -58,13 +57,30 @@ int	ft_pipex(t_pipex data)
 		index_pid++;
 		i++;
 	}
-	while (wait(&status) > 0)
+	i = 2;
+	index_pid = 0;
+	while (index_pid < (data.argc - 3))
 	{
-		if (WIFEXITED(status))
-			data.return_code = WEXITSTATUS(status);
-		// printf("Exit status: %d\n", data.return_code);
+		print_error_msg(&data, i, index_pid);
+		index_pid++;
+		i++;
 	}
 	return (data.return_code);
+}
+
+void	print_error_msg(t_pipex *data, int i, int index_pid)
+{
+	int		status;
+
+	waitpid(data->pid[index_pid], &status, 0);
+	if (WIFEXITED(status))
+	{
+		data->return_code = WEXITSTATUS(status);
+		if (data->return_code == 126)
+			ft_error_permission(data->argv[i]);
+		else if (data->return_code == 127)
+			ft_error_cmd(data->argv[i]);
+	}
 }
 
 /* **************** */

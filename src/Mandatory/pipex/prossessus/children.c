@@ -6,19 +6,20 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/26 01:08:09 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/26 04:15:26 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 void	free_cmd_and_path(t_pipex *data);
+void	print_error_msg(t_pipex *data, int i);
 
 /* ******************************* */
 /* 	 👶 SETUP FIRST CHILDREN 👶   */
 /* ******************************* */
 
-int	ft_setup_first_children(t_pipex *data, int i, size_t index_pid)
+int	ft_setup_first_children(t_pipex *data, int i, int index_pid)
 {
 	data->fd_in = open(data->argv[i - 1], O_RDONLY);
 	if (data->fd_in == ERROR)
@@ -36,10 +37,7 @@ int	ft_setup_first_children(t_pipex *data, int i, size_t index_pid)
 		dup2(data->fd[1], STDOUT_FILENO);
 		close(data->fd[1]);
 		if (ft_exec_cmd(data, i) == ERROR)
-		{
-			ft_error_cmd(data->argv[i]);
-			exit(127);
-		}
+			exit(1);
 	}
 	free_cmd_and_path(data);
 	close(data->fd[1]);
@@ -51,7 +49,7 @@ int	ft_setup_first_children(t_pipex *data, int i, size_t index_pid)
 /*   👶  SETUP LAST CHILDREN 👶   */
 /* ******************************* */
 
-int	ft_setup_last_children(t_pipex *data, int i, size_t index_pid)
+int	ft_setup_last_children(t_pipex *data, int i, int index_pid)
 {
 	data->fd_out = open(data->argv[data->argc - 1], \
 		O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -68,10 +66,7 @@ int	ft_setup_last_children(t_pipex *data, int i, size_t index_pid)
 		dup2(data->fd[0], STDIN_FILENO);
 		close(data->fd[0]);
 		if (ft_exec_cmd(data, i) == ERROR)
-		{
-			ft_error_cmd(data->argv[i]);
-			exit(127);
-		}
+			exit(1);
 	}
 	free_cmd_and_path(data);
 	close(data->fd[0]);
@@ -86,3 +81,4 @@ void	free_cmd_and_path(t_pipex *data)
 	if (data->path)
 		free(data->path);
 }
+

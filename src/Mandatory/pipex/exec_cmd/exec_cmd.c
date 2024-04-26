@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/20 23:07:47 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/26 04:21:31 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	ft_exec_cmd(t_pipex *data, int i)
 		if (ft_exec_absolut_path_cmd(data, i) == SUCCESS)
 			return (SUCCESS);
 	}
-	
 	return (ERROR);
 }
 
@@ -51,6 +50,7 @@ int	ft_exec_absolut_path_cmd(t_pipex *data, int i)
 	{
 		ft_error_msg("execve");
 		free_split(data->cmd);
+		return (ERROR);
 	}
 	return (SUCCESS);
 }
@@ -65,11 +65,10 @@ int	ft_search_path_cmd(t_pipex *data, int i)
 		return (ERROR);
 	if (data->argv[i][0] == '/')
 	{
-		ft_error_msg(data->argv[i]);
+		if (access(data->argv[i], F_OK) == SUCCESS)
+			exit(126);
 		exit(127);
 	}
-	if (data->envp[0] == NULL)
-		return (ft_error_msg(data->argv[i]), ERROR);
 	data->cmd = ft_split(data->argv[i], ' ');
 	if (data->cmd[0] == NULL)
 		return (ft_error_msg("Error split"), ERROR);
@@ -77,13 +76,14 @@ int	ft_search_path_cmd(t_pipex *data, int i)
 	if (data->path == NULL)
 	{
 		free_split(data->cmd);
-		return (ERROR);
+		exit(127);
 	}
 	if (execve(data->path, data->cmd, data->envp) == ERROR)
 	{
 		free(data->path);
 		free_split(data->cmd);
 		ft_error_msg("execve");
+		return (ERROR);
 	}
 	return (SUCCESS);
 }
