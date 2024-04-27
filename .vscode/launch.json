@@ -9,7 +9,7 @@
 			"name": "(gdb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "/home/samy/42projet/PIPEX/PIPEX/pipex",
+			"program": "/home/sben-tay/sgoinfre/Cursus/PIPEX/pipex",
 			"args": ["/dev/stdin", "pipi", "caca", "/dev/stdout"],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/27 02:04:08 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:04:04 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_search_path_cmd(t_pipex *data, int i)
 {
 	ft_secure_cmd_empty(data, i);
 	data->cmd = ft_split(data->argv[i], ' ');
-	if (data->cmd[0] == NULL)
+	if (data->cmd == NULL)
 		return (ft_error_msg("Error split"), ERROR);
 	data->path = get_cmd(data, i);
 	if (data->path == NULL)

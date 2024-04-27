@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/27 02:00:33 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:05:43 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_setup_first_children(t_pipex *data, int i, int index_pid)
 		if (ft_exec_cmd(data, i) == ERROR)
 			exit(1);
 	}
-	//free_cmd_and_path(data);
+	free_cmd_and_path(data);
 	close(data->fd[1]);
 	close(data->fd_in);
 	return (SUCCESS);
@@ -68,7 +68,7 @@ int	ft_setup_last_children(t_pipex *data, int i, int index_pid)
 		if (ft_exec_cmd(data, i) == ERROR)
 			exit(1);
 	}
-	//free_cmd_and_path(data);
+	free_cmd_and_path(data);
 	close(data->fd[0]);
 	close(data->fd_out);
 	return (SUCCESS);
