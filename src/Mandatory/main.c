@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/26 04:23:57 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:12:08 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /* ⚙️ MAIN PROGRAMME ⚙️ */
 /* ********************* */
 
-void	print_error_msg(t_pipex *data, int i, int index_pid);
+void	check_exit_code(t_pipex *data, int index_pid);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -57,18 +57,16 @@ int	ft_pipex(t_pipex data)
 		index_pid++;
 		i++;
 	}
-	i = 2;
 	index_pid = 0;
 	while (index_pid < (data.argc - 3))
 	{
-		print_error_msg(&data, i, index_pid);
+		check_exit_code(&data, index_pid);
 		index_pid++;
-		i++;
 	}
 	return (data.return_code);
 }
 
-void	print_error_msg(t_pipex *data, int i, int index_pid)
+void	check_exit_code(t_pipex *data, int index_pid)
 {
 	int		status;
 
@@ -76,10 +74,6 @@ void	print_error_msg(t_pipex *data, int i, int index_pid)
 	if (WIFEXITED(status))
 	{
 		data->return_code = WEXITSTATUS(status);
-		if (data->return_code == 126)
-			ft_error_permission(data->argv[i]);
-		else if (data->return_code == 127)
-			ft_error_cmd(data->argv[i]);
 	}
 }
 

@@ -6,11 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/26 04:21:31 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:04:08 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int		ft_check_access_absolut_path_cmd(char **cmd_path);
+void	ft_secure_cmd_empty(t_pipex *data, int i);
 
 /* ************************************ */
 /*  🌟 CHECK_ABSOLUT_PATH_AND_EXEC 🌟  */
@@ -18,17 +21,17 @@
 
 int	ft_exec_cmd(t_pipex *data, int i)
 {
-	if (!ft_absolut_path_cmd(data->argv[i]))
+	if (ft_strchr(data->argv[i], '/') != NULL)
 	{
-		if (ft_search_path_cmd(data, i) == SUCCESS)
-			return (SUCCESS);
+		if (ft_exec_absolut_path_cmd(data, i) == ERROR)
+			return (ERROR);
 	}
-	if (ft_absolut_path_cmd(data->argv[i]))
+	else if (ft_strchr(data->argv[i], '/') == NULL)
 	{
-		if (ft_exec_absolut_path_cmd(data, i) == SUCCESS)
-			return (SUCCESS);
+		if (ft_search_path_cmd(data, i) == ERROR)
+			return (ERROR);
 	}
-	return (ERROR);
+	return (SUCCESS);
 }
 
 /* ********************************* */
@@ -38,21 +41,40 @@ int	ft_exec_cmd(t_pipex *data, int i)
 int	ft_exec_absolut_path_cmd(t_pipex *data, int i)
 {
 	data->cmd = ft_split(data->argv[i], ' ');
-	if (data->cmd == NULL)
-		return (ERROR);
-	data->path = data->argv[i];
-	if (data->path == NULL)
+	if (data->cmd[0] == NULL)
+		return (ft_error_msg("Error_split"), ERROR);
+	if (ft_check_access_absolut_path_cmd(data->cmd) == SUCCESS)
 	{
-		free_split(data->cmd);
-		return (ERROR);
-	}
-	if (execve(data->cmd[0], data->cmd, data->envp) == ERROR)
-	{
-		ft_error_msg("execve");
-		free_split(data->cmd);
-		return (ERROR);
+		if (execve(data->cmd[0], data->cmd, data->envp) == ERROR)
+		{
+			ft_error_msg("execve");
+			free_split(data->cmd);
+			return (ERROR);
+		}
 	}
 	return (SUCCESS);
+}
+
+/* **************************************** */
+/*  🌟 EXECVE_WITH_ABSOLUT_PATH_HELPER 🌟  */
+/* **************************************** */
+
+int	ft_check_access_absolut_path_cmd(char **cmd_path)
+{
+	if (access(cmd_path[0], F_OK) == ERROR)
+	{
+		ft_error_file_directory(cmd_path[0]);
+		free_split(cmd_path);
+		exit(127);
+	}
+	if (access(cmd_path[0], X_OK) == ERROR)
+	{
+		ft_error_permission(cmd_path[0]);
+		free_split(cmd_path);
+		exit(126);
+	}
+	else
+		return (SUCCESS);
 }
 
 /* *********************************** */
@@ -61,14 +83,7 @@ int	ft_exec_absolut_path_cmd(t_pipex *data, int i)
 
 int	ft_search_path_cmd(t_pipex *data, int i)
 {
-	if (ft_only_space(data->argv[i]) || data->argv[i][0] == '\0')
-		return (ERROR);
-	if (data->argv[i][0] == '/')
-	{
-		if (access(data->argv[i], F_OK) == SUCCESS)
-			exit(126);
-		exit(127);
-	}
+	ft_secure_cmd_empty(data, i);
 	data->cmd = ft_split(data->argv[i], ' ');
 	if (data->cmd[0] == NULL)
 		return (ft_error_msg("Error split"), ERROR);
@@ -88,24 +103,15 @@ int	ft_search_path_cmd(t_pipex *data, int i)
 	return (SUCCESS);
 }
 
-/* **************************** */
-/*  🌟 CHECKER_ABOSULT_CMD 🌟  */
-/* **************************** */
+/* ****************************************** */
+/*  🌟 SEARCH_PATH_CMD_AND_EXECVE_HELPER 🌟  */
+/* ****************************************** */
 
-bool	ft_absolut_path_cmd(char *argv)
+void	ft_secure_cmd_empty(t_pipex *data, int i)
 {
-	char	**tmp;
-
-	if (argv[0] == '\0')
-		return (false);
-	tmp = ft_split(argv, ' ');
-	if (tmp == NULL)
-		return (NULL);
-	if (access(tmp[0], F_OK) == SUCCESS)
+	if (ft_only_space(data->argv[i]) || data->argv[i][0] == '\0')
 	{
-		if (access(tmp[0], X_OK) == SUCCESS)
-			return (free_split(tmp), true);
+		ft_error_cmd(data->argv[i]);
+		exit(127);
 	}
-	free_split(tmp);
-	return (false);
 }

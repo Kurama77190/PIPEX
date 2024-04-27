@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/26 23:43:07 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/27 00:52:22 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void		*ft_memset(void *b, int c, size_t len);
 void		ft_error_cmd(char *cmd);
 
 void		ft_error_permission(char *cmd);
+
+void		ft_error_file_directory(char *cmd);
 
 int			ft_error_msg(char *msg_error);
 

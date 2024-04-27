@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:45:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/26 01:34:43 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/27 00:51:46 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,53 @@ void	ft_error_arguments(void)
 
 void	ft_error_cmd(char *cmd)
 {
-	ft_dprintf(2, "bash: %s: command not found\n", cmd);
+	char	*tmp;
+	char	*msg;
+
+	tmp = ft_strjoin("bash: ", cmd);
+	if (!tmp)
+		return ;
+	msg = ft_strjoin(tmp, ": command not found\n");
+	if (!msg)
+	{
+		free(tmp);
+		return ;
+	}
+	ft_putstr_fd(msg, 2);
+	free(tmp);
+	free(msg);
 }
 
 void	ft_error_permission(char *cmd)
 {
-	ft_dprintf(2, "bash: %s: permission denied\n", cmd);
+	char	**tmp;
+
+	if (ft_strchr(cmd, ' ') != NULL)
+	{
+		tmp = ft_split(cmd, ' ');
+		if (!cmd)
+			return ;
+		ft_dprintf(2, "bash: %s: Permission denied\n", tmp[0]);
+	}
+	else
+		ft_dprintf(2, "bash: %s: Permission denied\n", cmd);
 }
 
+void	ft_error_file_directory(char *cmd)
+{
+	char	*tmp;
+	char	*msg;
 
-// isoler les messages erreurs : fork, open, 
+	tmp = ft_strjoin("bash: ", cmd);
+	if (!tmp)
+		return ;
+	msg = ft_strjoin(tmp, ":  No such file or directory\n");
+	if (!msg)
+	{
+		free(tmp);
+		return ;
+	}
+	ft_putstr_fd(msg, 2);
+	free(tmp);
+	free(msg);
+}

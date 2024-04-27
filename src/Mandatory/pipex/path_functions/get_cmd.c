@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/26 01:22:28 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:03:56 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // LAST FOLDER FOR STORING THE FUNCTIONS RELATED TO THE PATH
 
 static int	checker_access(char *cmd_path, char **commands, char **path_env);
+static void	ft_check_cmd_infile(t_pipex *data, char **commands);
 
 char	**get_path(t_pipex *data)
 {
@@ -54,7 +55,7 @@ char	*get_cmd(t_pipex *data, int i)
 		return (NULL);
 	path_env = get_path(data);
 	if (path_env == NULL)
-		return (free_split(commands), NULL);
+		ft_check_cmd_infile(data, commands);
 	while (path_env[index_tab])
 	{
 		cmd_path = ft_strjoin(path_env[index_tab], commands[0]);
@@ -63,9 +64,11 @@ char	*get_cmd(t_pipex *data, int i)
 		index_tab++;
 		free(cmd_path);
 	}
+	ft_error_cmd(commands[0]);
 	free_split(commands);
 	free_split(path_env);
-	return (NULL);
+	exit(127);
+	return ("USELESS_RETURN");
 }
 
 static int	checker_access(char *cmd_path, char **commands, char **path_env)
@@ -85,4 +88,27 @@ static int	checker_access(char *cmd_path, char **commands, char **path_env)
 	}
 	else
 		return (ERROR);
+}
+
+static void	ft_check_cmd_infile(t_pipex *data, char **commands)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin("./", commands[0]);
+	if (access(tmp, F_OK) == ERROR)
+	{
+		ft_error_file_directory(commands[0]);
+		free(tmp);
+		free_split(commands);
+		exit(127);
+	}
+	if (access(tmp, X_OK) == ERROR)
+	{
+		ft_error_permission(commands[0]);
+		free(tmp);
+		free_split(commands);
+		exit(126);
+	}
+	else
+		execve(tmp, commands, data->envp);
 }
