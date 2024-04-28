@@ -66,7 +66,7 @@ void	ft_error_file_directory(char *cmd)
 	tmp = ft_strjoin("bash: ", cmd);
 	if (!tmp)
 		return ;
-	msg = ft_strjoin(tmp, ":  No such file or directory\n");
+	msg = ft_strjoin(tmp, ": No such file or directory\n");
 	if (!msg)
 	{
 		free(tmp);

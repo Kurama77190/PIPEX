@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 16:01:20 by sben-tay          #+#    #+#              #
-#    Updated: 2024/04/27 02:05:17 by sben-tay         ###   ########.fr        #
+#    Updated: 2024/04/28 09:01:06 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,9 @@ BUILD = builder/
 #=================================================__SRC__OF__PROJECT__=============================================================================
 SRC = src/Mandatory/main.c \
 	$(LIB)free_split.c $(LIB)ft_putstr_fd.c $(LIB)ft_split_envp.c $(LIB)ft_split.c $(LIB)ft_strjoin.c $(LIB)ft_strlen.c $(LIB)ft_strncmp.c \
-	$(LIB)ft_only_space.c $(LIB)ft_memset.c $(LIB)ft_strchr.c \
-	$(PIPEX)exec_cmd/exec_cmd.c $(PIPEX)path_functions/get_cmd.c $(PIPEX)prossessus/children.c \
-	$(SECURITY)msg_error.c
+	$(LIB)ft_only_space.c $(LIB)ft_memset.c $(LIB)ft_strchr.c $(LIB)ft_add_pid.c $(LIB)ft_lstclear.c \
+	$(PIPEX)exec_cmd/exec_cmd.c $(PIPEX)path_functions/get_cmd.c $(PIPEX)process/children.c $(PIPEX)process/ft_utils_process.c \
+	$(SECURITY)msg_error.c $(SECURITY)initializing_list.c $(SECURITY)pid_controller.c
 
 SRC_BNS = $(wildcard ./src/Bonus/*.c) $(shell find ./src/Bonus -type f -name '*.c')
 

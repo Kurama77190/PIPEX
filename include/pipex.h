@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/27 00:52:22 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/28 09:00:28 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,70 +28,86 @@
 # define ERROR -1
 # define SUCCESS 0
 
+typedef struct s_pid
+{
+	pid_t			pid;
+	int				status;
+	struct s_pid	*next;
+}					t_pid;
+
 typedef struct s_pipex
 {
-	int		fd[2];
-	int		fd_in;
-	int		fd_out;
-	int		return_code;
-	int		argc;
-	char	**cmd;
-	char	**argv;
-	char	**envp;
-	char	*path;
-	pid_t	pid[1024];
-}			t_pipex;
+	int				fd[2];
+	int				fd_in;
+	int				fd_out;
+	int				argc;
+	int				return_exit_code;
+	char			**cmd;
+	char			**argv;
+	char			**envp;
+	char			*path;
+	pid_t			pid_tmp;
+	t_pid			*data_pid;
+}					t_pipex;
 
-/*============================__FT_PIPEX__================================*/
+/*============================__FT_PIPEX__============================*/
 
-char		**get_path(t_pipex *data);
+void	ft_setup_status_pid(t_pipex *data);
 
-char		*get_cmd(t_pipex *data, int i);
+char	**get_path(t_pipex *data);
 
-int			ft_pipex(t_pipex data);
+char	*get_cmd(t_pipex *data, int i);
 
-int			ft_setup_first_children(t_pipex *data, int i, int index_pid);
+int		ft_pipex(t_pipex *data);
 
-int			ft_setup_last_children(t_pipex *data, int i, int index_pid);
+int		ft_setup_first_children(t_pipex *data, int i);
 
-int			ft_exec_cmd(t_pipex *data, int i);
+int		ft_setup_last_children(t_pipex *data, int i);
 
-int			ft_search_path_cmd(t_pipex *data, int i);
+int		ft_exec_cmd(t_pipex *data, int i);
 
-int			ft_exec_absolut_path_cmd(t_pipex *data, int i);
+int		ft_search_path_cmd(t_pipex *data, int i);
 
-bool		ft_absolut_path_cmd(char *argv);
+int		ft_exec_absolut_path_cmd(t_pipex *data, int i);
 
 /*============================__LIB_FT__============================*/
 
-char		*ft_strchr(const char *s, int c);
+void	ft_lstclear(t_pid **lst, void (*del)(void *));
 
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
+void	ft_add_pid(t_pipex *data, pid_t new_pid);
 
-char		**ft_split_envp(char const *s, char c);
+char	*ft_strchr(const char *s, int c);
 
-char		**ft_split(char const *s, char c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
-char		*ft_strjoin(char *s1, char *s2);
+char	**ft_split_envp(char const *s, char c);
 
-void		free_split(char **strs);
+char	**ft_split(char const *s, char c);
 
-void		ft_putstr_fd(char *s, int fd);
+char	*ft_strjoin(char *s1, char *s2);
 
-bool		ft_only_space(char *str);
+void	free_split(char **strs);
 
-/*===========================__MSG_ERROR_===========================*/
+void	ft_putstr_fd(char *s, int fd);
 
-void		*ft_memset(void *b, int c, size_t len);
+bool	ft_only_space(char *str);
 
-void		ft_error_cmd(char *cmd);
+/*============================__MSG_ERROR__============================*/
 
-void		ft_error_permission(char *cmd);
+void	*ft_memset(void *b, int c, size_t len);
 
-void		ft_error_file_directory(char *cmd);
+void	ft_error_cmd(char *cmd);
 
-int			ft_error_msg(char *msg_error);
+void	ft_error_permission(char *cmd);
 
-void		ft_error_arguments(void);
+void	ft_error_file_directory(char *cmd);
+
+int		ft_error_msg(char *msg_error);
+
+void	ft_error_arguments(void);
+
+/*=====================__INITIALIZING_STRUCTURE__=====================*/
+
+void	initializing_data(t_pipex *data, int argc, char **argv, char **envp);
 
 #endif

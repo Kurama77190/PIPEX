@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:03 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/27 18:22:13 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/28 09:01:19 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,65 +16,43 @@
 /* ⚙️ MAIN PROGRAMME ⚙️ */
 /* ********************* */
 
-void	check_exit_code(t_pipex *data, int index_pid);
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	data;
+	int		exit_code;
 
 	if (argc != 5)
 		return (ft_error_arguments(), 1);
-	data.argc = argc;
-	data.argv = argv;
-	data.envp = envp;
-	data.cmd = NULL;
-	data.path = NULL;
-	return (ft_pipex(data));
+	initializing_data(&data, argc, argv, envp);
+	exit_code = ft_pipex(&data);
+	ft_lstclear(&data.data_pid, free);
+	return (exit_code);
 }
 
 /* ********************* */
 /*   🥇 MAIN PIPEX 🥇   */
 /* ********************* */
 
-int	ft_pipex(t_pipex data)
+int	ft_pipex(t_pipex *data)
 {
 	int		pipe;
 	int		i;
-	int		index_pid;
 
 	i = 2;
 	pipe = 77190;
-	index_pid = 0;
-	while (i <= data.argc - 2 && pipe != ERROR)
+	while (i <= (data->argc - 2) && pipe != ERROR)
 	{
 		if (i == 2)
-			pipe = ft_setup_first_children(&data, i, index_pid);
-		if (i == (data.argc - 2))
+			pipe = ft_setup_first_children(data, i);
+		if (i == (data->argc - 2))
 		{
-			pipe = ft_setup_last_children(&data, i, index_pid);
+			pipe = ft_setup_last_children(data, i);
 			break ;
 		}
-		index_pid++;
 		i++;
 	}
-	index_pid = 0;
-	while (index_pid < (data.argc - 3))
-	{
-		check_exit_code(&data, index_pid);
-		index_pid++;
-	}
-	return (data.return_code);
-}
-
-void	check_exit_code(t_pipex *data, int index_pid)
-{
-	int		status;
-
-	waitpid(data->pid[index_pid], &status, 0);
-	if (WIFEXITED(status))
-	{
-		data->return_code = WEXITSTATUS(status);
-	}
+	ft_setup_status_pid(data);
+	return (data->return_exit_code);
 }
 
 /* **************** */

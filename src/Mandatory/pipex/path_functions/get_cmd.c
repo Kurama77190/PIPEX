@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/27 18:16:57 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:03:56 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ char	*get_cmd(t_pipex *data, int i)
 	ft_error_cmd(commands[0]);
 	free_split(commands);
 	free_split(path_env);
-	return (NULL);
+	exit(127);
+	return ("USELESS_RETURN");
 }
 
 static int	checker_access(char *cmd_path, char **commands, char **path_env)
