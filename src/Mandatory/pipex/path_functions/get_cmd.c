@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 16:55:41 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/27 02:03:56 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/28 18:05:11 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 
 static int	checker_access(char *cmd_path, char **commands, char **path_env);
 static void	ft_check_cmd_infile(t_pipex *data, char **commands);
+static void	ft_error_split(t_pipex *data);
+
+/* **************************** */
+/*  🌟 SEARCH_PATH_IN_ENVP 🌟  */
+/* **************************** */
 
 char	**get_path(t_pipex *data)
 {
@@ -41,6 +46,9 @@ char	**get_path(t_pipex *data)
 		return (NULL);
 	return (path_);
 }
+/* ****************************************** */
+/*  🌟 SEARCH_PATH_CMD_IN_ENVP_OR_INFILE 🌟  */
+/* ****************************************** */
 
 char	*get_cmd(t_pipex *data, int i)
 {
@@ -51,8 +59,8 @@ char	*get_cmd(t_pipex *data, int i)
 
 	index_tab = 0;
 	commands = ft_split(data->argv[i], ' ');
-	if (commands == NULL)
-		return (NULL);
+	if (!commands)
+		ft_error_split(data);
 	path_env = get_path(data);
 	if (path_env == NULL)
 		ft_check_cmd_infile(data, commands);
@@ -67,9 +75,12 @@ char	*get_cmd(t_pipex *data, int i)
 	ft_error_cmd(commands[0]);
 	free_split(commands);
 	free_split(path_env);
-	exit(127);
-	return ("USELESS_RETURN");
+	return (NULL);
 }
+
+/* **************** */
+/*  🌟 HELPERS 🌟  */
+/* **************** */
 
 static int	checker_access(char *cmd_path, char **commands, char **path_env)
 {
@@ -77,6 +88,7 @@ static int	checker_access(char *cmd_path, char **commands, char **path_env)
 	{
 		if (access(cmd_path, X_OK) == ERROR)
 		{
+			ft_error_permission(commands[0]);
 			free(cmd_path);
 			free_split(commands);
 			free_split(path_env);
@@ -111,4 +123,11 @@ static void	ft_check_cmd_infile(t_pipex *data, char **commands)
 	}
 	else
 		execve(tmp, commands, data->envp);
+}
+
+static void	ft_error_split(t_pipex *data)
+{
+	if (data->cmd)
+		free_split(data->cmd);
+	exit(1);
 }

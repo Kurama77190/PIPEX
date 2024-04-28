@@ -9,8 +9,8 @@
 			"name": "(gdb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "/home/samy/42projet/PIPEX/pipex",
-			"args": ["/dev/stdin", "caca", "pipi", "/dev/stdout"],
+			"program": "/home/samy/42projet/SAMY/pipex",
+			"args": ["/dev/stdin", "caca", "   ", "/dev/stdout"],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
 			"environment": [],
@@ -23,20 +23,25 @@
 					"ignoreFailures": true
 				},
 				{
+                    "description": "Ignore SIGCHLD",
+                    "text": "handle SIGCHLD nostop noprint",
+                    "ignoreFailures": true
+                },
+				{
 					"description": "Set Disassembly Flavor to Intel",
 					"text": "-gdb-set disassembly-flavor intel",
 					"ignoreFailures": true
 				},
-				// {
-                //     "description": "Set follow fork mode to child",
-                //     "text": "-gdb-set follow-fork-mode child",
-                //     "ignoreFailures": true
-                // },
 				{
-					"description": "Set follow fork mode to parent",
-					"text": "-gdb-set follow-fork-mode parent",
-					"ignoreFailures": true
-				},
+                    "description": "Set follow fork mode to child",
+                    "text": "-gdb-set follow-fork-mode child",
+                    "ignoreFailures": true
+                },
+				// {
+				// 	"description": "Set follow fork mode to parent",
+				// 	"text": "-gdb-set follow-fork-mode parent",
+				// 	"ignoreFailures": true
+				// },
 			]	
 		}
 

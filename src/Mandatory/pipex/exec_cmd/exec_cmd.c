@@ -6,14 +6,14 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/27 02:04:08 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/28 17:56:29 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 int		ft_check_access_absolut_path_cmd(char **cmd_path);
-void	ft_secure_cmd_empty(t_pipex *data, int i);
+int		ft_secure_cmd_empty(t_pipex *data, int i);
 
 /* ************************************ */
 /*  🌟 CHECK_ABSOLUT_PATH_AND_EXEC 🌟  */
@@ -83,12 +83,13 @@ int	ft_check_access_absolut_path_cmd(char **cmd_path)
 
 int	ft_search_path_cmd(t_pipex *data, int i)
 {
-	ft_secure_cmd_empty(data, i);
+	if (ft_secure_cmd_empty(data, i) == ERROR)
+		exit(127);
 	data->cmd = ft_split(data->argv[i], ' ');
-	if (data->cmd[0] == NULL)
+	if (!data->cmd)
 		return (ft_error_msg("Error split"), ERROR);
 	data->path = get_cmd(data, i);
-	if (data->path == NULL)
+	if (!data->path)
 	{
 		free_split(data->cmd);
 		exit(127);
@@ -107,11 +108,14 @@ int	ft_search_path_cmd(t_pipex *data, int i)
 /*  🌟 SEARCH_PATH_CMD_AND_EXECVE_HELPER 🌟  */
 /* ****************************************** */
 
-void	ft_secure_cmd_empty(t_pipex *data, int i)
+int	ft_secure_cmd_empty(t_pipex *data, int i)
 {
 	if (ft_only_space(data->argv[i]) || data->argv[i][0] == '\0')
 	{
 		ft_error_cmd(data->argv[i]);
-		exit(127);
+		ft_lstclear(&data->data_pid, free);
+		return (ERROR);
 	}
+	else
+		return (SUCCESS);
 }

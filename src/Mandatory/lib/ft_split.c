@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 15:40:25 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/16 23:57:52 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/28 16:14:12 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	if (!s)
+		return (NULL);
+	if (ft_only_space((char *)s))
 		return (NULL);
 	str = (char *)s;
 	tab = malloc(sizeof(char *) * (ft_nombremot(str, c) + 1));
