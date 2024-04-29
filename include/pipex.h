@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/29 14:59:48 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 19:05:45 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ typedef struct s_pipex
 
 /*============================__FT_PIPEX__============================*/
 
-void	check_fd_out_writable(t_pipex *data);
+int		fork_and_add_pid(t_pipex *data);
+
+int		ft_check_access_bin_without_envp(char *cmd_path, int i, t_pipex *data);
+
+int		ft_secure_cmd_empty(t_pipex *data, int i);
+
+int		ft_exec_without_envp_set(t_pipex *data, int i);
 
 void	ft_setup_status_pid(t_pipex *data);
 
@@ -68,10 +74,6 @@ int		ft_setup_first_children(t_pipex *data, int i);
 int		ft_setup_last_children(t_pipex *data, int i);
 
 int		ft_exec_cmd(t_pipex *data, int i);
-
-int		ft_search_path_cmd(t_pipex *data, int i);
-
-int		ft_exec_absolut_path_cmd(t_pipex *data, int i);
 
 /*============================__LIB_FT__============================*/
 
@@ -97,8 +99,6 @@ bool	ft_only_space(char *str);
 
 /*============================__MSG_ERROR__============================*/
 
-void	*ft_memset(void *b, int c, size_t len);
-
 void	ft_error_cmd(char *cmd);
 
 void	ft_error_permission(char *cmd);
@@ -108,6 +108,10 @@ void	ft_error_file_directory(char *cmd);
 int		ft_error_msg(char *msg_error);
 
 void	ft_error_arguments(void);
+
+int		ft_error_cmd_envp(char *cmd);
+
+void	ft_error_permission_envp(char *cmd);
 
 /*=====================__INITIALIZING_STRUCTURE__=====================*/
 

@@ -6,18 +6,15 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/29 14:49:00 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 19:13:35 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
 /* ******************************* */
 /* 	 👶 SETUP FIRST CHILDREN 👶   */
 /* ******************************* */
-
-int	fork_and_add_pid(t_pipex *data);
 
 int	ft_setup_first_children(t_pipex *data, int i)
 {
@@ -69,4 +66,3 @@ int	ft_setup_last_children(t_pipex *data, int i)
 	close(data->fd_out);
 	return (SUCCESS);
 }
-

@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:13:44 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/28 17:56:29 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 19:13:13 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		ft_check_access_absolut_path_cmd(char **cmd_path);
 int		ft_secure_cmd_empty(t_pipex *data, int i);
+int		ft_exec_absolut_path_cmd(t_pipex *data, int i);
+int		ft_search_path_cmd(t_pipex *data, int i);
 
 /* ************************************ */
 /*  🌟 CHECK_ABSOLUT_PATH_AND_EXEC 🌟  */
@@ -21,6 +23,11 @@ int		ft_secure_cmd_empty(t_pipex *data, int i);
 
 int	ft_exec_cmd(t_pipex *data, int i)
 {
+	if (data->envp[0] == NULL)
+	{
+		if (ft_exec_without_envp_set(data, i) == ERROR)
+			return (ERROR);
+	}
 	if (ft_strchr(data->argv[i], '/') != NULL)
 	{
 		if (ft_exec_absolut_path_cmd(data, i) == ERROR)
@@ -53,28 +60,6 @@ int	ft_exec_absolut_path_cmd(t_pipex *data, int i)
 		}
 	}
 	return (SUCCESS);
-}
-
-/* **************************************** */
-/*  🌟 EXECVE_WITH_ABSOLUT_PATH_HELPER 🌟  */
-/* **************************************** */
-
-int	ft_check_access_absolut_path_cmd(char **cmd_path)
-{
-	if (access(cmd_path[0], F_OK) == ERROR)
-	{
-		ft_error_file_directory(cmd_path[0]);
-		free_split(cmd_path);
-		exit(127);
-	}
-	if (access(cmd_path[0], X_OK) == ERROR)
-	{
-		ft_error_permission(cmd_path[0]);
-		free_split(cmd_path);
-		exit(126);
-	}
-	else
-		return (SUCCESS);
 }
 
 /* *********************************** */
@@ -115,6 +100,28 @@ int	ft_secure_cmd_empty(t_pipex *data, int i)
 		ft_error_cmd(data->argv[i]);
 		ft_lstclear(&data->data_pid, free);
 		return (ERROR);
+	}
+	else
+		return (SUCCESS);
+}
+
+/* **************************************** */
+/*  🌟 EXECVE_WITH_ABSOLUT_PATH_HELPER 🌟  */
+/* **************************************** */
+
+int	ft_check_access_absolut_path_cmd(char **cmd_path)
+{
+	if (access(cmd_path[0], F_OK) == ERROR)
+	{
+		ft_error_file_directory(cmd_path[0]);
+		free_split(cmd_path);
+		exit(127);
+	}
+	if (access(cmd_path[0], X_OK) == ERROR)
+	{
+		ft_error_permission(cmd_path[0]);
+		free_split(cmd_path);
+		exit(126);
 	}
 	else
 		return (SUCCESS);

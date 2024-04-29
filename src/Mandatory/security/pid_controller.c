@@ -6,13 +6,17 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 08:28:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/29 15:00:58 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 19:11:11 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 static void	ft_return_last_ifexited(t_pipex *data);
+
+/* ******************************************** */
+/*  ⚙️ SEARCH_LAST_PID'S_STATUS_FOR_RETURN ⚙️  */
+/* ******************************************** */
 
 void	ft_setup_status_pid(t_pipex *data)
 {
@@ -37,7 +41,6 @@ void	ft_setup_status_pid(t_pipex *data)
 	}
 	ft_return_last_ifexited(data);
 }
-
 
 static void	ft_return_last_ifexited(t_pipex *data)
 {
