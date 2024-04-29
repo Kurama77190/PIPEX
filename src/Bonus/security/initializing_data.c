@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 08:32:18 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/29 19:11:31 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:37:44 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	initializing_data(t_pipex *data, int argc, char **argv, char **envp)
 	data->pid_tmp = -1;
 	data->return_exit_code = -1;
 	data->fdout_no_w = 0;
+	data->pipe = 77190;
 	check_fd_out_writable(data);
 }
 

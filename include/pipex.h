@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/29 19:05:45 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:08:53 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_pipex
 	int				fd[2];
 	int				fd_in;
 	int				fd_out;
+	int				pipe;
 	int				argc;
 	int				return_exit_code;
 	int				fdout_no_w;
@@ -116,5 +117,10 @@ void	ft_error_permission_envp(char *cmd);
 /*=====================__INITIALIZING_STRUCTURE__=====================*/
 
 void	initializing_data(t_pipex *data, int argc, char **argv, char **envp);
+
+/*=========================__FT_PIPEX_BONUS__=========================*/
+
+int		ft_setup_middle_children(t_pipex *data, int i);
+
 
 #endif

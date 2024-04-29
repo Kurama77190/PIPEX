@@ -6,7 +6,7 @@
 #    By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/20 16:01:20 by sben-tay          #+#    #+#              #
-#    Updated: 2024/04/29 19:25:51 by sben-tay         ###   ########.fr        #
+#    Updated: 2024/04/29 21:19:30 by sben-tay         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,11 @@ CPPFLAGS = -I./include
 LIB = src/Mandatory/lib/
 PIPEX = src/Mandatory/pipex/
 SECURITY = src/Mandatory/security/
+
+LIB_B = src/Bonus/lib/
+PIPEX_B = src/Bonus/pipex/
+SECURITY_B = src/Bonus/security/
+
 BUILD = builder/
 
 # Définitions des fichiers sources et objets
@@ -40,7 +45,14 @@ SRC = src/Mandatory/main.c \
 	\
 	$(SECURITY)msg_error.c $(SECURITY)initializing_data.c $(SECURITY)pid_controller.c $(SECURITY)msg_error_without_env.c
 
-SRC_BNS = $(wildcard ./src/Bonus/*.c) $(shell find ./src/Bonus -type f -name '*.c')
+SRC_BNS = src/Bonus/main.c \
+	$(LIB_B)free_split.c $(LIB_B)ft_putstr_fd.c $(LIB_B)ft_split_envp.c $(LIB_B)ft_split.c $(LIB_B)ft_strjoin.c $(LIB_B)ft_strlen.c $(LIB_B)ft_strncmp.c \
+	$(LIB_B)ft_only_space.c $(LIB_B)ft_strchr.c $(LIB_B)ft_add_pid.c $(LIB_B)ft_lstclear.c \
+	\
+	$(PIPEX_B)exec_cmd/exec_cmd.c $(PIPEX_B)exec_cmd/exec_without_env.c $(PIPEX_B)exec_cmd/exec_utils.c $(PIPEX_B)path_functions/get_cmd.c $(PIPEX_B)process/children.c $(PIPEX_B)process/ft_utils_process.c \
+	\
+	$(SECURITY_B)msg_error.c $(SECURITY_B)initializing_data.c $(SECURITY_B)pid_controller.c $(SECURITY_B)msg_error_without_env.c
+
 
 
 # Crée le dossier BUILD si nécessaire
@@ -111,9 +123,17 @@ $(BUILD)%.o: %.c
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 
-bonus: $(OBJ_BNS) # Règle pour créer l'exécutable pipex_BNS
+ # Règle pour créer l'exécutable pipex_BNS
 
+bonus: $(NAME_BNS)
+
+$(NAME_BNS): $(OBJ_BNS)
+	@echo "$(CYAN)Starting compilation of bonus part..."
+	@$(MAKE) $(MAKEFLAGS) -C $(PRINTF)
+	@echo "$(MAGENTA)Compiling $(NAME_BNS)..."
 	@$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJ_BNS) -L$(PRINTF) -lftprintf -o $(NAME_BNS)
+	@echo "$(GREEN)Compilation complete: $(NAME_BNS)$(NC)"
+
 
 
 clean: # Règles pour nettoyer les fichiers objets

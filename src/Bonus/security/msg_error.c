@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:45:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/29 18:52:35 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 19:59:33 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_error_msg(char *msg_error)
 
 void	ft_error_arguments(void)
 {
-	ft_dprintf(2, "Error: expected 4 arguments\n");
+	ft_dprintf(2, "Error: expected 4 arguments or more\n");
 	exit(EXIT_FAILURE);
 }
 
