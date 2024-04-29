@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/28 17:52:03 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:59:48 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_pipex
 	int				fd_out;
 	int				argc;
 	int				return_exit_code;
+	int				fdout_no_w;
 	char			**cmd;
 	char			**argv;
 	char			**envp;
@@ -51,6 +52,8 @@ typedef struct s_pipex
 }					t_pipex;
 
 /*============================__FT_PIPEX__============================*/
+
+void	check_fd_out_writable(t_pipex *data);
 
 void	ft_setup_status_pid(t_pipex *data);
 

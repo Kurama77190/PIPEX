@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 08:28:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/28 08:57:48 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:00:58 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,6 @@ static void	ft_return_last_ifexited(t_pipex *data)
 		data->return_exit_code = WEXITSTATUS(current->status);
 		current = current->next;
 	}
+	if (data->return_exit_code == 0 && data->fdout_no_w == -1)
+		data->return_exit_code = 1;
 }

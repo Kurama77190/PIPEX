@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/28 16:25:09 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:49:00 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_setup_last_children(t_pipex *data, int i)
 	data->fd_out = open(data->argv[data->argc - 1], \
 		O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->fd_out == ERROR)
-		return (ft_error_msg("open"));
+		return (ft_error_msg(data->argv[data->argc - 1]));
 	if (fork_and_add_pid(data) == ERROR)
 		return (ERROR);
 	if (data->pid_tmp == 0)
