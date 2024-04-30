@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 11:20:31 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/29 22:44:42 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:02:01 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,36 @@ int	ft_setup_first_children(t_pipex *data, int i)
 		if (ft_exec_cmd(data, i) == ERROR)
 			exit(1);
 	}
-	close(data->fd[1]);
+	// close(data->fd[1]);
 	close(data->fd_in);
+	return (SUCCESS);
+}
+
+/* ********************************* */
+/*   👶  SETUP MIDDLE CHILDREN 👶   */
+/* ********************************* */
+
+int	ft_setup_middle_children(t_pipex *data, int i)
+{
+	int	fd[2];
+
+	if (pipe(fd) == ERROR)
+		return (ft_error_msg("pipe"));
+	if (fork_and_add_pid(data) == ERROR)
+		return (ERROR);
+	if (data->pid_tmp == 0)
+	{
+		close(fd[1]);
+		if (dup2(data->fd[1], STDIN_FILENO) == ERROR)
+			return (ft_error_msg("dup2"));
+		close(data->fd[1]);
+		if (dup2(fd[1], STDOUT_FILENO) == ERROR)
+			return (ft_error_msg("dup2"));
+		close(fd[1]);
+		if (ft_exec_cmd(data, i) == ERROR)
+			return (ERROR);
+	}
+	close(fd[1]);
 	return (SUCCESS);
 }
 
@@ -73,31 +101,4 @@ int	ft_setup_last_children(t_pipex *data, int i)
 	return (SUCCESS);
 }
 
-/* ********************************* */
-/*   👶  SETUP MIDDLE CHILDREN 👶   */
-/* ********************************* */
 
-int	ft_setup_middle_children(t_pipex *data, int i)
-{
-	int	fd[2];
-
-	if (pipe(fd) == ERROR)
-		return (ft_error_msg("pipe"));
-	if (fork_and_add_pid(data) == ERROR)
-		return (ERROR);
-	if (data->pid_tmp == 0)
-	{
-		close(fd[0]);
-		if (dup2(data->fd_in, STDIN_FILENO) == ERROR)
-			return (ft_error_msg("dup2"));
-		close(data->fd_in);
-		if (dup2(fd[1], STDOUT_FILENO) == ERROR)
-			return (ft_error_msg("dup2"));
-		close(fd[1]);
-		if (ft_exec_cmd(data, i) == ERROR)
-			return (ERROR);
-	}
-	close(data->fd_in);
-	close(fd[1]);
-	return (SUCCESS);
-}

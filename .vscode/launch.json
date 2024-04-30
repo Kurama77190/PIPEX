@@ -10,7 +10,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "/home/samy/42projet/PIPEX/pipex_bonus",
-			"args": ["/dev/stdin", "cat", "cat", "cat", "/dev/stdout"],
+			"args": ["/dev/stdin", "cat", "cat", "cat", "ls", "/dev/stdout"],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
 			"environment": [],
@@ -23,17 +23,17 @@
 					"ignoreFailures": true
 				},
 				{
-                    "description": "Ignore SIGCHLD",
-                    "text": "handle SIGCHLD nostop noprint",
-                    "ignoreFailures": true
-                },
-				{
 					"description": "Set Disassembly Flavor to Intel",
 					"text": "-gdb-set disassembly-flavor intel",
 					"ignoreFailures": true
 				},
 				{
-                    "description": "Set follow fork mode to child",
+					"description": "Ignore SIGCHLD",
+					"text": "handle SIGCHLD nostop noprint",
+					"ignoreFailures": true
+				},
+				{
+					"description": "Set follow fork mode to child",
                     "text": "-gdb-set follow-fork-mode child",
                     "ignoreFailures": true
                 },
@@ -42,8 +42,9 @@
 				// 	"text": "-gdb-set follow-fork-mode parent",
 				// 	"ignoreFailures": true
 				// },
-			]	
-		}
 
+				]	
+			}
+			
 	]
 }

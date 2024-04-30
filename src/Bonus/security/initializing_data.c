@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 08:32:18 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/29 20:37:44 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:32:03 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	initializing_data(t_pipex *data, int argc, char **argv, char **envp)
 	data->cmd = NULL;
 	data->path = NULL;
 	data->data_pid = NULL;
-	data->fd_in = -1;
-	data->fd_out = -1;
-	data->fd[0] = -1;
-	data->fd[1] = -1;
-	data->pid_tmp = -1;
+	data->fd_in = 0;
+	data->fd_out = 0;
+	data->fd[0] = 0;
+	data->fd[1] = 0;
+	data->pid_tmp = 0;
 	data->return_exit_code = -1;
 	data->fdout_no_w = 0;
 	data->pipe = 77190;
