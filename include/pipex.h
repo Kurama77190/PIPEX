@@ -6,7 +6,7 @@
 /*   By: sben-tay <sben-tay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 22:22:06 by sben-tay          #+#    #+#             */
-/*   Updated: 2024/04/30 15:14:11 by sben-tay         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:04:24 by sben-tay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,5 @@ void	initializing_data(t_pipex *data, int argc, char **argv, char **envp);
 /*=========================__FT_PIPEX_BONUS__=========================*/
 
 int		ft_setup_middle_children(t_pipex *data, int i);
-
 
 #endif

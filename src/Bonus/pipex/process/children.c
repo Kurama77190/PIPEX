@@ -40,7 +40,8 @@ int	ft_setup_first_children(t_pipex *data, int i)
 			exit(1);
 	}
 	// close(data->fd[1]);
-	close(data->fd_in);
+	if (data->fd_in != ERROR)
+		close(data->fd_in);
 	return (SUCCESS);
 }
 
